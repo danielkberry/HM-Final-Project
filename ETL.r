@@ -7,6 +7,7 @@ library(sp)
 library(magrittr)
 library(stringr)
 library(rgeos)
+library(fuzzyjoin)
 
 getwd()
 
@@ -21,8 +22,8 @@ blocks_raw <- read.csv('CensusBlockTIGER2010.csv', stringsAsFactors = FALSE)
 
 centers <- do.call('rbind', lapply(blocks_raw$the_geom, function(s) compute.center(mp.to.matrix(s))))
 
-blocks_raw$X_center <- centers[,1]
-blocks_raw$Y_center <- centers[,2]
+blocks_raw$Longitude <- centers[,1]
+blocks_raw$Latitude  <- centers[,2]
 
 vacant_raw <- read.csv('311_Service_Requests_-_Vacant_and_Abandoned_Buildings_Reported_-_Map.csv',
                        stringsAsFactors = FALSE,
@@ -49,4 +50,5 @@ names(vacant_raw) <- c('Type',
                        'Longitude',
                        'Location_string')
 
+tmp <- geo_full_join(blocks_raw, vacant_raw, by = c('Longitude', 'Latitude'), distance_col = 'dist')
 
