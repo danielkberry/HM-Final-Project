@@ -20,18 +20,18 @@ compute.center <- function(coords) {c(mean(coords[,1]), mean(coords[,2]))}
 
 
 blocks_raw <- read.csv('CensusBlockTIGER2010.csv', stringsAsFactors = FALSE)
-blocks_raw <- blocks_raw[apply(!is.na(blocks_raw[,c('Longitude', 'Latitude')]), 1, any),]
+
 
 centers <- do.call('rbind', lapply(blocks_raw$the_geom, function(s) compute.center(mp.to.matrix(s))))
 
 blocks_raw$Longitude <- centers[,1]
 blocks_raw$Latitude  <- centers[,2]
 
+blocks_raw <- blocks_raw[apply(!is.na(blocks_raw[,c('Longitude', 'Latitude')]), 1, any),]
+
 vacant_raw <- read.csv('311_Service_Requests_-_Vacant_and_Abandoned_Buildings_Reported_-_Map.csv',
                        stringsAsFactors = FALSE,
                        skip = 1)
-
-vacant_raw <- vacant_raw[apply(!is.na(vacant_raw[,c('Longitude', 'Latitude')]), 1, any),]
 
 names(vacant_raw) <- c('Type',
                        'ID',
@@ -53,6 +53,8 @@ names(vacant_raw) <- c('Type',
                        'Latitude',
                        'Longitude',
                        'Location_string')
+
+vacant_raw <- vacant_raw[apply(!is.na(vacant_raw[,c('Longitude', 'Latitude')]), 1, any),]
 
 ## tmp <- geo_full_join(blocks_raw[1:1,], vacant_raw[1:1,], by = c('Longitude', 'Latitude'), distance_col = 'dist') 
 
