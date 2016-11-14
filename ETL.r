@@ -85,8 +85,13 @@ write.csv(CTA_counts, file = 'CTA_counts.csv')
 
 blocks_raw$CTA_counts <- CTA_counts
 
+groceries <- read.csv('food-deserts-master/data/Grocery_Stores_-_2011.csv', stringsAsFactors = FALSE)
+t3 <- as.matrix(groceries[, c('LONGITUDE', 'LATITUDE')])
 
+system.time(dist_mat3 <- spDists(t1, t3, longlat = TRUE))
+store_counts <- rowSums(dist_mat3 <= 1)
 
+write.csv(store_counts, 'store_counts.csv')
 ## TODO:
 ## - Block level features: 
 ##   - Compute population within a threshold (probably 1 mile due to how long everything takes to run)
