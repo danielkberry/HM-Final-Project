@@ -6,8 +6,8 @@
 library(sp)
 library(magrittr)
 library(stringr)
-library(rgeos)
-library(fuzzyjoin)
+## library(rgeos)
+## library(fuzzyjoin)
 library(geosphere)
 
 getwd()
@@ -63,9 +63,28 @@ t1 <- as.matrix(blocks_raw[, c('Longitude', 'Latitude')])
 t2 <- as.matrix(vacant_raw[, c('Longitude', 'Latitude')])
 system.time(dist_mat <- spDists(t1, t2, longlat = TRUE))
 
-dist_mat <- dist_mat / 1609.344
+## dist_mat <- dist_mat / 1609.344
 
 counts <- rowSums(dist_mat <= 1)
+
+
+CTA_data <- read.csv('CTA_data.csv', stringsAsFactors = FALSE)
+
+CTA_locations <- do.call('rbind', lapply(CTA_data$location, function(s) {unlist(lapply(str_split(gsub('\\(|\\)', '', s), ', '), as.numeric))}))
+
+CTA_data$Latitude  <- CTA_locations[,1]
+CTA_data$Longitude <- CTA_locations[,2]
+
+t2 <- as.matrix(CTA_data[, c('Longitude', 'Latitude')])
+system.time(dist_mat2 <- spDists(t1, t2, longlat = TRUE))
+
+in_dist <- dist_mat2 <= 1
+CTA_counts <- apply(in_dist, 1, function(row) sum(CTA_data[which(row), 'boardings']))
+write.csv(CTA_counts, file = 'CTA_counts.csv')
+## t <- apply(in_dist, 1, function(row) {sum(CTA_locations[which(row), 'boardings'])})
+
+blocks_raw$CTA_counts <- CTA_counts
+
 
 
 ## TODO:
