@@ -59,39 +59,73 @@ vacant_raw <- vacant_raw[apply(!is.na(vacant_raw[,c('Longitude', 'Latitude')]), 
 ## tmp <- geo_full_join(blocks_raw[1:1,], vacant_raw[1:1,], by = c('Longitude', 'Latitude'), distance_col = 'dist') 
 
 ## system.time(dist_mat <- distm(blocks_raw[1:1000,c('Longitude','Latitude')], vacant_raw[1:1000,c('Longitude','Latitude')]))
-t1 <- as.matrix(blocks_raw[, c('Longitude', 'Latitude')])
-t2 <- as.matrix(vacant_raw[, c('Longitude', 'Latitude')])
-system.time(dist_mat <- spDists(t1, t2, longlat = TRUE))
+## t1 <- as.matrix(blocks_raw[, c('Longitude', 'Latitude')])
+## t2 <- as.matrix(vacant_raw[, c('Longitude', 'Latitude')])
+## system.time(dist_mat <- spDists(t1, t2, longlat = TRUE))
 
 ## dist_mat <- dist_mat / 1609.344
 
-counts <- rowSums(dist_mat <= 1)
+## counts <- rowSums(dist_mat <= 1)
+
+vacant_counts <- read.csv('counts.csv')
+blocks_raw$vacant_counts <- vacant_counts
 
 
 CTA_data <- read.csv('CTA_data.csv', stringsAsFactors = FALSE)
 
-CTA_locations <- do.call('rbind', lapply(CTA_data$location, function(s) {unlist(lapply(str_split(gsub('\\(|\\)', '', s), ', '), as.numeric))}))
+## CTA_locations <- do.call('rbind', lapply(CTA_data$location, function(s) {unlist(lapply(str_split(gsub('\\(|\\)', '', s), ', '), as.numeric))}))
 
-CTA_data$Latitude  <- CTA_locations[,1]
-CTA_data$Longitude <- CTA_locations[,2]
+## CTA_data$Latitude  <- CTA_locations[,1]
+## CTA_data$Longitude <- CTA_locations[,2]
 
-t2 <- as.matrix(CTA_data[, c('Longitude', 'Latitude')])
-system.time(dist_mat2 <- spDists(t1, t2, longlat = TRUE))
+## t2 <- as.matrix(CTA_data[, c('Longitude', 'Latitude')])
+## system.time(dist_mat2 <- spDists(t1, t2, longlat = TRUE))
 
-in_dist <- dist_mat2 <= 1
-CTA_counts <- apply(in_dist, 1, function(row) sum(CTA_data[which(row), 'boardings']))
-write.csv(CTA_counts, file = 'CTA_counts.csv')
+## in_dist <- dist_mat2 <= 1
+## CTA_counts <- apply(in_dist, 1, function(row) sum(CTA_data[which(row), 'boardings']))
+## write.csv(CTA_counts, file = 'CTA_counts.csv')
 ## t <- apply(in_dist, 1, function(row) {sum(CTA_locations[which(row), 'boardings'])})
+
+CTA_counts <- read.csv('CTA_counts.csv')
 
 blocks_raw$CTA_counts <- CTA_counts
 
-groceries <- read.csv('food-deserts-master/data/Grocery_Stores_-_2011.csv', stringsAsFactors = FALSE)
-t3 <- as.matrix(groceries[, c('LONGITUDE', 'LATITUDE')])
+## groceries <- read.csv('food-deserts-master/data/Grocery_Stores_-_2011.csv', stringsAsFactors = FALSE)
+## t3 <- as.matrix(groceries[, c('LONGITUDE', 'LATITUDE')])
+store_counts <- read.csv('store_counts.csv')
 
-system.time(dist_mat3 <- spDists(t1, t3, longlat = TRUE))
-store_counts <- rowSums(dist_mat3 <= 1)
+blocks_raw$store_counts <- store_counts
+## system.time(dist_mat3 <- spDists(t1, t3, longlat = TRUE))
+## store_counts <- rowSums(dist_mat3 <= 1)
 
-write.csv(store_counts, 'store_counts.csv')
+## write.csv(store_counts, 'store_counts.csv')
+
+
+population <- read.csv('food-deserts-master/data/Population_by_2010_Census_Block.csv')
+
+nrow(population)
+
+library(dplyr)
+nrow(block_data <- merge(blocks_raw, population, by.x = 'TRACT_BLOC', by.y = 'CENSUS.BLOCK', all.x = TRUE))
+
+
+
+library(ggplot2)
+
+library(sp)
+library(rgeos)
+library(rgdal)
+data.shape <- readOGR('./Neighborhoods_2012', layer = 'Neighborhoods_2012b')
+
+data.shape_df <- fortify(data.shape)
+
+sp_block_data <- block_data
+coordinates(sp_block_data) <- ~ Longitude + Latitude
+proj4string(sp_block_data) <- CRS("+proj=longlat")
+## proj4string(sp_block_data) <- proj4string(data.shape)
+sp_block_data <- spTransform(sp_block_data, proj4string(data.shape))
+t <- over(sp_block_data, data.shape)
+block_data$Neighborhood <- t$PRI_NEIGH
 ## TODO:
 ## - Block level features: 
 ##   - Compute population within a threshold (probably 1 mile due to how long everything takes to run)
