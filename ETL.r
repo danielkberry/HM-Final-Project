@@ -147,7 +147,7 @@ block_data$Neighborhood <- t$PRI_NEIGH
 block_data$desert <- block_data$store_counts == 0
 save(block_data, file = 'block_data')
 write.csv(block_data, file = 'block_data.csv')
-print()
+
 
 ## ggplot(block_data, aes(Longitude, Latitude, color = desert)) + geom_point(alpha = .1)
 ## ggplot(block_data, aes(Longitude, Latitude, color = nearest_supermarket)) + geom_point(alpha = .1)
@@ -162,7 +162,7 @@ race <- read.csv('race.csv', stringsAsFactors = FALSE)
 block_data$Neighborhood <- as.character(block_data$Neighborhood)
 
 ## Set up table to match subneighborhoods
-replacements <- list(c('Andersonville', 'Edgewater'),
+block_replacements <- list(c('Andersonville', 'Edgewater'),
                      c('Wrigleyville', 'Edgewater'),
                      c('Boystown', 'Edgewater'),
                      c('Sheffield & DePaul', 'Lincoln Park'),
@@ -194,7 +194,7 @@ replacements <- list(c('Andersonville', 'Edgewater'),
                      c("Chinatown"  , 'Near South Side')
                      )
 
-for (tpl in replacements) {
+for (tpl in block_replacements) {
     old <- tpl[1]; new <- tpl[2];
     block_data$Neighborhood[block_data$Neighborhood == old] <- new
 }
@@ -212,10 +212,30 @@ for (var in names(tmp)) {public_health[88,var] <- tmp[var]}
 
 tmp <- colMeans(socioeconomic[socioeconomic$COMMUNITY.AREA.NAME %in% c('East Garfield Park', 'West Garfield Park'), !(names(socioeconomic) %in% c('Community.Area.Number', 'COMMUNITY.AREA.NAME'))])
 
-socioeconomic[88,'Community.Area.Name'] <- 'Garfield Park'
-for (var in names(tmp)) {socioeconomic[88,var] <- tmp[var]}
+socioeconomic[78,'COMMUNITY.AREA.NAME'] <- 'Garfield Park'
+for (var in names(tmp)) {socioeconomic[78,var] <- tmp[var]}
 
+socioeconomic$COMMUNITY.AREA.NAME[socioeconomic$COMMUNITY.AREA.NAME == 'Humboldt park'] <- 'Humboldt Park'
+socioeconomic$COMMUNITY.AREA.NAME[socioeconomic$COMMUNITY.AREA.NAME == 'Washington Height'] <- 'Washington Heights'
 
+race$X[race$X == 'Montclare'] <- 'Montclaire'
+
+## Standardize names:
+public_health$Neighborhood <- public_health$Community.Area.Name
+public_health$Community.Area.Name <- NULL
+
+socioeconomic$Neighborhood <- socioeconomic$COMMUNITY.AREA.NAME
+socioeconomic$COMMUNITY.AREA.NAME <- NULL
+
+race$Neighborhood <- race$X
+race$X <- NULL
+
+all_data <- merge(block_data, public_health, by = 'Neighborhood', all.x = TRUE)
+all_data <- merge(all_data, socioeconomic, by = 'Neighborhood', all.x = TRUE)
+all_data <- merge(all_data, race, by = 'Neighborhood', all.x = TRUE)
+
+write.csv(all_data, file = 'all_data.csv')
+save(all_data, file = 'all_data')
 
 ## TODO:
 ## - Block level features: 
