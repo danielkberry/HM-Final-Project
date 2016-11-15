@@ -133,6 +133,9 @@ t <- over(sp_block_data, data.shape)
 
 block_data$Neighborhood <- t$PRI_NEIGH
 block_data$desert <- block_data$store_counts == 0
+save(block_data, file = 'block_data')
+write.csv(block_data, file = 'block_data.csv')
+print()
 
 ggplot(block_data, aes(Longitude, Latitude, color = desert)) + geom_point(alpha = .1)
 
