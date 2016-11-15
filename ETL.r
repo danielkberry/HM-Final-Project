@@ -63,7 +63,7 @@ vacant_raw <- vacant_raw[apply(!is.na(vacant_raw[,c('Longitude', 'Latitude')]), 
 ## tmp <- geo_full_join(blocks_raw[1:1,], vacant_raw[1:1,], by = c('Longitude', 'Latitude'), distance_col = 'dist') 
 
 ## system.time(dist_mat <- distm(blocks_raw[1:1000,c('Longitude','Latitude')], vacant_raw[1:1000,c('Longitude','Latitude')]))
-## t1 <- as.matrix(blocks_raw[, c('Longitude', 'Latitude')])
+t1 <- as.matrix(blocks_raw[, c('Longitude', 'Latitude')])
 ## t2 <- as.matrix(vacant_raw[, c('Longitude', 'Latitude')])
 ## system.time(dist_mat <- spDists(t1, t2, longlat = TRUE))
 
@@ -94,16 +94,28 @@ CTA_counts <- read.csv('CTA_counts.csv')
 
 blocks_raw$CTA_counts <- CTA_counts$x
 
-## groceries <- read.csv('food-deserts-master/data/Grocery_Stores_-_2011.csv', stringsAsFactors = FALSE)
-## t3 <- as.matrix(groceries[, c('LONGITUDE', 'LATITUDE')])
-store_counts <- read.csv('store_counts.csv')
+groceries <- read.csv('food-deserts-master/data/Grocery_Stores_-_2011.csv', stringsAsFactors = FALSE)
+## drop liquor stores
+groceries <- groceries[grep('liquor', tolower(groceries$STORE.NAME), invert = TRUE),]
+t3 <- as.matrix(groceries[groceries$SQUARE.FEET >= 10000, c('LONGITUDE', 'LATITUDE')])
 
-blocks_raw$store_counts <- store_counts$x
-## system.time(dist_mat3 <- spDists(t1, t3, longlat = TRUE))
-## store_counts <- rowSums(dist_mat3 <= 1)
+## buffer <- .5 + .5*as.numeric()
+## buffers <- do.call('rbind', lapply(1:nrow(blocks_raw), function(tmp) buffer))
 
-## write.csv(store_counts, 'store_counts.csv')
+## store_counts <- read.csv('store_counts.csv')
 
+## blocks_raw$store_counts <- store_counts$x
+system.time(dist_mat3 <- spDists(t1, t3, longlat = TRUE))
+
+dist_mat3_mi <- dist_mat3 * 0.621371
+
+store_counts_new <- rowSums(dist_mat3_mi <= 1)
+
+nearest_supermarket <- apply(dist_mat3_mi, 1, min)
+
+## write.csv(store_counts_new, 'store_counts.csv')
+blocks_raw$store_counts <- store_counts_new
+blocks_raw$nearest_supermarket <- nearest_supermarket
 
 population <- read.csv('food-deserts-master/data/Population_by_2010_Census_Block.csv')
 
@@ -137,13 +149,57 @@ save(block_data, file = 'block_data')
 write.csv(block_data, file = 'block_data.csv')
 print()
 
-ggplot(block_data, aes(Longitude, Latitude, color = desert)) + geom_point(alpha = .1)
+## ggplot(block_data, aes(Longitude, Latitude, color = desert)) + geom_point(alpha = .1)
+## ggplot(block_data, aes(Longitude, Latitude, color = nearest_supermarket)) + geom_point(alpha = .1)
+## ggplot(block_data, aes(Longitude, Latitude, color = nearest_supermarket)) + stat_density_2d(aes(fill = ..level..), geom="polygon", n = 1000)
 
-public_health <- read.csv('Public_Health_Statistics-_Selected_public_health_indicators_by_Chicago_community_area.csv')
+public_health <- read.csv('Public_Health_Statistics-_Selected_public_health_indicators_by_Chicago_community_area.csv', stringsAsFactors = FALSE)
 
-socioeconomic <- read.csv('Census_Data_-_Selected_socioeconomic_indicators_in_Chicago__2008___2012.csv')
+socioeconomic <- read.csv('Census_Data_-_Selected_socioeconomic_indicators_in_Chicago__2008___2012.csv', stringsAsFactors = FALSE)
 
+race <- read.csv('race.csv', stringsAsFactors = FALSE)
 
+block_data$Neighborhood <- as.character(block_data$Neighborhood)
+
+## Set up table to match subneighborhoods
+replacements <- list(c('Andersonville', 'Edgewater'),
+                     c('Wrigleyville', 'Edgewater'),
+                     c('Boystown', 'Edgewater'),
+                     c('Sheffield & DePaul', 'Lincoln Park'),
+                     c('Bucktown', 'Logan Square'),
+                     c('Old Town', 'Near North Side'),
+                     c('Gold Coast', 'Near North Side'),
+                     c('River North', 'Near North Side'),
+                     c('Rush & Division','Near North Side'),
+                     c('Streeterville', 'Near North Side'),
+                     c('Magnificent Mile', 'Near North Side'),
+                     c('Sauganash,Forest Glen', 'Forest Glen'),
+                     c("Montclare"           , 'Montclair' ),
+                     c("Wicker Park"         , 'West Town'),
+                     c("East Village"        , 'West Town'),
+                     c("Ukrainian Village"   , 'West Town'),
+                     c("Galewood"            , 'Austin'),
+                     c("West Loop"           , 'Near West Side'),
+                     c("United Center"       , 'Near West Side'),
+                     c("Greektown"           , 'Near West Side'),
+                     c("Little Italy, UIC"   , 'Near West Side'),
+                     c("Little Village"      , 'South Lawndale'),
+                     c("Millenium Park"      , 'Loop'),
+                     c("Grant Park"          , 'Loop'),
+                     c("Museum Campus"       , 'Loop'),
+                     c("Printers Row"        , 'Loop'),
+                     c("Jackson Park"        , 'Woodlawn'),
+                     c("Grand Crossing"      , 'Greater Grand Crossing'),
+                     c("Mckinley Park"       , 'McKinley Park'),
+                     c("Chinatown"  , 'Near South Side')
+                     )
+
+for (tpl in replacements) {
+    old <- tpl[1]; new <- tpl[2];
+    block_data$Neighborhood[block_data$Neighborhood == old] <- new
+}
+
+## join west garfield park and east garfield park 
 
 
 ## TODO:
