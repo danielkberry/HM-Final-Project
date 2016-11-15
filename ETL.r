@@ -12,6 +12,10 @@ library(geosphere)
 
 getwd()
 
+#############################
+## BLOCK LEVEL INFORMATION ##
+#############################
+
 mp.to.matrix <- function(mp_string) {
     matrix(as.numeric(unlist(lapply(mp_string %>% str_sub(17, -4) %>% str_split(', '), function(s) str_split(s, ' ')))), ncol = 2, byrow = TRUE)
 }
@@ -68,7 +72,7 @@ vacant_raw <- vacant_raw[apply(!is.na(vacant_raw[,c('Longitude', 'Latitude')]), 
 ## counts <- rowSums(dist_mat <= 1)
 
 vacant_counts <- read.csv('counts.csv')
-blocks_raw$vacant_counts <- vacant_counts
+blocks_raw$vacant_counts <- vacant_counts$x
 
 
 CTA_data <- read.csv('CTA_data.csv', stringsAsFactors = FALSE)
@@ -88,13 +92,13 @@ CTA_data <- read.csv('CTA_data.csv', stringsAsFactors = FALSE)
 
 CTA_counts <- read.csv('CTA_counts.csv')
 
-blocks_raw$CTA_counts <- CTA_counts
+blocks_raw$CTA_counts <- CTA_counts$x
 
 ## groceries <- read.csv('food-deserts-master/data/Grocery_Stores_-_2011.csv', stringsAsFactors = FALSE)
 ## t3 <- as.matrix(groceries[, c('LONGITUDE', 'LATITUDE')])
 store_counts <- read.csv('store_counts.csv')
 
-blocks_raw$store_counts <- store_counts
+blocks_raw$store_counts <- store_counts$x
 ## system.time(dist_mat3 <- spDists(t1, t3, longlat = TRUE))
 ## store_counts <- rowSums(dist_mat3 <= 1)
 
@@ -105,7 +109,8 @@ population <- read.csv('food-deserts-master/data/Population_by_2010_Census_Block
 
 nrow(population)
 
-library(dplyr)
+blocks_raw$the_geom <- NULL
+
 nrow(block_data <- merge(blocks_raw, population, by.x = 'TRACT_BLOC', by.y = 'CENSUS.BLOCK', all.x = TRUE))
 
 
@@ -125,7 +130,19 @@ proj4string(sp_block_data) <- CRS("+proj=longlat")
 ## proj4string(sp_block_data) <- proj4string(data.shape)
 sp_block_data <- spTransform(sp_block_data, proj4string(data.shape))
 t <- over(sp_block_data, data.shape)
+
 block_data$Neighborhood <- t$PRI_NEIGH
+block_data$desert <- block_data$store_counts == 0
+
+ggplot(block_data, aes(Longitude, Latitude, color = desert)) + geom_point(alpha = .1)
+
+public_health <- read.csv('Public_Health_Statistics-_Selected_public_health_indicators_by_Chicago_community_area.csv')
+
+socioeconomic <- read.csv('Census_Data_-_Selected_socioeconomic_indicators_in_Chicago__2008___2012.csv')
+
+
+
+
 ## TODO:
 ## - Block level features: 
 ##   - Compute population within a threshold (probably 1 mile due to how long everything takes to run)
