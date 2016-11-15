@@ -174,7 +174,7 @@ replacements <- list(c('Andersonville', 'Edgewater'),
                      c('Streeterville', 'Near North Side'),
                      c('Magnificent Mile', 'Near North Side'),
                      c('Sauganash,Forest Glen', 'Forest Glen'),
-                     c("Montclare"           , 'Montclair' ),
+                     c("Montclare"           , 'Montclaire' ),
                      c("Wicker Park"         , 'West Town'),
                      c("East Village"        , 'West Town'),
                      c("Ukrainian Village"   , 'West Town'),
@@ -198,6 +198,8 @@ for (tpl in replacements) {
     old <- tpl[1]; new <- tpl[2];
     block_data$Neighborhood[block_data$Neighborhood == old] <- new
 }
+
+
 
 ## join west garfield park and east garfield park 
 
