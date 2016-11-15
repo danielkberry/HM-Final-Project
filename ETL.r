@@ -199,9 +199,22 @@ for (tpl in replacements) {
     block_data$Neighborhood[block_data$Neighborhood == old] <- new
 }
 
-
-
 ## join west garfield park and east garfield park 
+
+public_health$Gonorrhea.in.Males <- as.numeric(public_health$Gonorrhea.in.Males)
+
+tmp <- colMeans(public_health[public_health$Community.Area.Name %in% c('East Garfield Park', 'West Garfield Park'), !(names(public_health) %in% c('Community.Area', 'Community.Area.Name'))])
+
+public_health[88,'Community.Area.Name'] <- 'Garfield Park'
+for (var in names(tmp)) {public_health[88,var] <- tmp[var]}
+
+
+
+tmp <- colMeans(socioeconomic[socioeconomic$COMMUNITY.AREA.NAME %in% c('East Garfield Park', 'West Garfield Park'), !(names(socioeconomic) %in% c('Community.Area.Number', 'COMMUNITY.AREA.NAME'))])
+
+socioeconomic[88,'Community.Area.Name'] <- 'Garfield Park'
+for (var in names(tmp)) {socioeconomic[88,var] <- tmp[var]}
+
 
 
 ## TODO:
