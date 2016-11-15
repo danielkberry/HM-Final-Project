@@ -148,6 +148,7 @@ socioeconomic <- read.csv('Census_Data_-_Selected_socioeconomic_indicators_in_Ch
 ##   - Compute population within a threshold (probably 1 mile due to how long everything takes to run)
 ##   - Compute bus ridership within threshold
 ##   - Compute crimes within a certain threshold
+##   - TODO: RECOMPUTE Grocery counts based on size
 ## - Neighborhood level features (load in and join):
 ##   - Demographics
 ##     - Racial breakdown
