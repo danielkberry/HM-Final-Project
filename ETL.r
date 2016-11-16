@@ -220,6 +220,15 @@ socioeconomic$COMMUNITY.AREA.NAME[socioeconomic$COMMUNITY.AREA.NAME == 'Washingt
 
 race$X[race$X == 'Montclare'] <- 'Montclaire'
 
+to_rep <- setdiff(names(race), c('X', 'Community.Area'))
+for (var in to_rep) {race[,var] <- as.numeric(gsub(',','', race[,var]))}
+
+tmp <- colMeans(race[race$X %in% c('East Garfield Park', 'West Garfield Park'), c("NHW","NHB", "NHAM", "NHAS", "NHOTHER", "HISP", "Multiple.Race..", "TOTAL")])
+race[78,'X'] <- 'Garfield Park'
+for (var in names(tmp)) {race[78,var] <- tmp[var]}
+
+
+
 ## Standardize names:
 public_health$Neighborhood <- public_health$Community.Area.Name
 public_health$Community.Area.Name <- NULL
@@ -230,12 +239,20 @@ socioeconomic$COMMUNITY.AREA.NAME <- NULL
 race$Neighborhood <- race$X
 race$X <- NULL
 
+
+
+for (var in setdiff(to_rep, 'TOTAL')) {race[,paste0(var,'_p')] <- race[,var] / race[,'TOTAL']}
+
 all_data <- merge(block_data, public_health, by = 'Neighborhood', all.x = TRUE)
 all_data <- merge(all_data, socioeconomic, by = 'Neighborhood', all.x = TRUE)
 all_data <- merge(all_data, race, by = 'Neighborhood', all.x = TRUE)
 
+
+
 write.csv(all_data, file = 'all_data.csv')
 save(all_data, file = 'all_data')
+
+
 
 ## TODO:
 ## - Block level features: 
@@ -251,4 +268,3 @@ save(all_data, file = 'all_data')
 ##   - Public Health
 ##     - Cause of death? Diabetes?
 ##     - Public Health Indicators
-
