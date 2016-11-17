@@ -145,6 +145,17 @@ t <- over(sp_block_data, data.shape)
 
 block_data$Neighborhood <- t$PRI_NEIGH
 block_data$desert <- block_data$store_counts == 0
+
+## fix missed point in polygon
+
+missing <- which(is.na(block_data$Neighborhood))
+t1 <- as.matrix(block_data[which(!is.na(block_data$Neighborhood)),c('Longitude','Latitude')])
+for (miss_ID in missing) {
+    d1 <- as.matrix(block_data[miss_ID,c('Longitude', 'Latitude')])
+    dist_mat <- spDists(d1,t1)
+    block_data$Neighborhood[miss_ID] <- block_data[!is.na(block_data$Neighborhood),'Neighborhood'][which.min(dist_mat)]
+}
+
 save(block_data, file = 'block_data')
 write.csv(block_data, file = 'block_data.csv')
 

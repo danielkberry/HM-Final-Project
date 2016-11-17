@@ -11,7 +11,7 @@ pct_missing <- lapply(all_data, function(var) mean(is.na(var)))
 
 plot_data <- all_data
 plot_data$missing <- is.na(plot_data$Neighborhood)
-ggplot(plot_data, aes(Longitude,Latitude, color = missing)) + geom_point(alpha = .1)
+ggplot(plot_data, aes(Longitude,Latitude, color = Neighborhood)) + geom_point(alpha = .1)
 
 library(ggmap)
 ggmap('chicago', extent = 'normal')
