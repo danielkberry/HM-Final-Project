@@ -7,7 +7,7 @@ load('all_data')
 ## Plot location of missing blocks
 library(ggplot2)
 
-pct_missing <- lapply(all_data, function(var) mean(is.na(var)))
+pct_missing <- lapply(all_data, function(var) sum(is.na(var)))
 
 plot_data <- all_data
 plot_data$missing <- is.na(plot_data$Neighborhood)
@@ -57,3 +57,43 @@ t <- project(as.matrix(nbhd_df[,c('long', 'lat')]),'+proj=merc +lat_0=36.6666666
 head(t <- project(as.matrix(nbhd_df[,c('long', 'lat')]),'+proj=merc +lat_0=36.66666666666666+lon_0=-88.33333333333333', inv = TRUE))
 
 head(t <- project(as.matrix(nbhd_df[,c('long', 'lat')]),'+proj=merc +lat_0=36.66666666666666 +lon_0=-88.33333333333333 +k=0.9999749999999999 +x_0=300000 +y_0=0', inv = TRUE))
+
+
+######################
+## Univariate Plots ##
+######################
+
+all_data$desert <- as.numeric(all_data$desert)
+
+
+
+
+
+summary(glm(desert ~ NHB_p, family = 'binomial', data = all_data))
+
+ggplot(all_data, aes(x = NHB_p, y = desert)) +
+    geom_point() + stat_smooth(method = 'glm', method.args = list(family = 'binomial'))
+
+
+summary(glm(desert ~ vacant_counts, family = 'binomial', data = all_data))
+
+ggplot(all_data, aes(x = vacant_counts, y = desert)) +
+    geom_point() + stat_smooth(method = 'glm', method.args = list(family = 'binomial'))
+
+exclude <- c('Neighborhood', 'TRACT_BLOC','STATEFP10', 'COUNTYFP10', 'TRACTCE10', 'BLOCKCE10', 'GEOID10', 'NAME10', 'Longitude', 'Latitude', 'Community.Area.y', 'nearest_supermarket', 'desert', 'Community.Area.x', 'store_counts')
+potential_covariates <- setdiff(names(all_data), exclude)
+
+for (covar in potential_covariates) {
+    print(covar)
+    covar_plot <- ggplot(all_data, aes_string(x = covar, y = 'desert')) +
+        geom_point() + stat_smooth(method = 'glm', method.args = list(family = 'binomial')) +
+        theme_bw()
+    ggsave(paste0('Plot of ',covar, '.png'), covar_plot)
+}
+
+##########
+## MAPS ##
+##########
+
+all_data$desert_logical <- all_data$desert == 1
+ggplot(all_data, aes(x = Longitude, y = Latitude, color = desert_logical)) + geom_point(alpha = .1) + theme_bw()

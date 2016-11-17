@@ -170,6 +170,13 @@ socioeconomic <- read.csv('Census_Data_-_Selected_socioeconomic_indicators_in_Ch
 
 race <- read.csv('race.csv', stringsAsFactors = FALSE)
 
+## NHW: Non-hispanic white
+## NHB: non-hispanic black
+## NHAM: american indian/alaskan native, non hispanic
+## NHAS: asian, not hispanic
+## NHOTHER: other single race, not hispanic
+
+
 block_data$Neighborhood <- as.character(block_data$Neighborhood)
 
 ## Set up table to match subneighborhoods
