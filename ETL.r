@@ -125,7 +125,13 @@ blocks_raw$the_geom <- NULL
 
 nrow(block_data <- merge(blocks_raw, population, by.x = 'TRACT_BLOC', by.y = 'CENSUS.BLOCK', all.x = TRUE))
 
+##############################
+## NEIGHBORHOOD INFORMATION ##
+##############################
 
+library(data.table)
+
+crime <- fread('rows.csv')
 
 library(ggplot2)
 
