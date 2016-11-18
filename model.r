@@ -36,15 +36,15 @@ summary(pp)
 ## Hierarchical ##
 ##################
 
-mlm <- glmer(desert ~ CTA_counts + vacant_counts + Diabetes.related + (1 | Neighborhood),
-             data = model_data,
-             family = 'binomial')
-summary(mlm)
+## mlm <- glmer(desert ~ CTA_counts + vacant_counts + Diabetes.related + (1 | Neighborhood),
+##              data = model_data,
+##              family = 'binomial')
+## summary(mlm)
 
-mlm_2 <- glmer(desert ~ CTA_counts + vacant_counts + Diabetes.related + Below.Poverty.Level + (1 | Neighborhood),
-             data = model_data,
-             family = 'binomial')
-summary(mlm_2)
+## mlm_2 <- glmer(desert ~ CTA_counts + vacant_counts + Diabetes.related + Below.Poverty.Level + (1 | Neighborhood),
+##              data = model_data,
+##              family = 'binomial')
+## summary(mlm_2)
 
 
 ## rescale variables
@@ -53,59 +53,59 @@ potential_covariates <- setdiff(names(all_data), exclude)
 model_data_scale <- model_data
 for (var in potential_covariates) {model_data_scale[var] <- as.numeric(scale(model_data[var]))}
 
-mlm_c <- glmer(desert ~ CTA_counts + vacant_counts + Diabetes.related + (1 | Neighborhood),
-             data = model_data_scale,
-             family = 'binomial')
-summary(mlm_c)
+## mlm_c <- glmer(desert ~ CTA_counts + vacant_counts + Diabetes.related + (1 | Neighborhood),
+##              data = model_data_scale,
+##              family = 'binomial')
+## summary(mlm_c)
 
-mlm_c_2 <- glmer(desert ~ CTA_counts + vacant_counts + Diabetes.related + Below.Poverty.Level + (1 | Neighborhood),
-             data = model_data_scale,
-             family = 'binomial')
-summary(mlm_c_2)
+## mlm_c_2 <- glmer(desert ~ CTA_counts + vacant_counts + Diabetes.related + Below.Poverty.Level + (1 | Neighborhood),
+##              data = model_data_scale,
+##              family = 'binomial')
+## summary(mlm_c_2)
 
-mlm_c_3 <- glmer(desert ~ CTA_counts + vacant_counts + Diabetes.related + Below.Poverty.Level + NHB_p + PER.CAPITA.INCOME + (1 | Neighborhood),
-             data = model_data_scale,
-             family = 'binomial')
-summary(mlm_c_3)
+## mlm_c_3 <- glmer(desert ~ CTA_counts + vacant_counts + Diabetes.related + Below.Poverty.Level + NHB_p + PER.CAPITA.INCOME + (1 | Neighborhood),
+##              data = model_data_scale,
+##              family = 'binomial')
+## summary(mlm_c_3)
 
-mlm_c_4 <- glmer(desert ~ CTA_counts + vacant_counts + Diabetes.related + Below.Poverty.Level + NHB_p + PER.CAPITA.INCOME + HISP_p + (1 | Neighborhood),
-             data = model_data_scale,
-             family = 'binomial')
-summary(mlm_c_4)
+## mlm_c_4 <- glmer(desert ~ CTA_counts + vacant_counts + Diabetes.related + Below.Poverty.Level + NHB_p + PER.CAPITA.INCOME + HISP_p + (1 | Neighborhood),
+##              data = model_data_scale,
+##              family = 'binomial')
+## summary(mlm_c_4)
 
-mlm_c_5 <- glmer(desert ~ CTA_counts + vacant_counts + Diabetes.related + Below.Poverty.Level + NHB_p + PER.CAPITA.INCOME + HISP_p + TOTAL.POPULATION + (1 | Neighborhood),
-             data = model_data_scale,
-             family = 'binomial')
-summary(mlm_c_5)
+## mlm_c_5 <- glmer(desert ~ CTA_counts + vacant_counts + Diabetes.related + Below.Poverty.Level + NHB_p + PER.CAPITA.INCOME + HISP_p + TOTAL.POPULATION + (1 | Neighborhood),
+##              data = model_data_scale,
+##              family = 'binomial')
+## summary(mlm_c_5)
 
-mlm_c_6 <- glmer(desert ~ CTA_counts + vacant_counts + Dependency + NHB_p  + TOTAL.POPULATION + (1 | Neighborhood),
-             data = model_data_scale,
-             family = 'binomial')
-summary(mlm_c_6)
+## mlm_c_6 <- glmer(desert ~ CTA_counts + vacant_counts + Dependency + NHB_p  + TOTAL.POPULATION + (1 | Neighborhood),
+##              data = model_data_scale,
+##              family = 'binomial')
+## summary(mlm_c_6)
 
-mlm_c_7 <- glmer(desert ~ CTA_counts + vacant_counts + Dependency  + HISP_p  + TOTAL.POPULATION + (1 | Neighborhood),
-             data = model_data_scale,
-             family = 'binomial')
-summary(mlm_c_7)
+## mlm_c_7 <- glmer(desert ~ CTA_counts + vacant_counts + Dependency  + HISP_p  + TOTAL.POPULATION + (1 | Neighborhood),
+##              data = model_data_scale,
+##              family = 'binomial')
+## summary(mlm_c_7)
 
-mlm_c_8 <- glmer(desert ~ CTA_counts + vacant_counts + Dependency + Cancer..All.Sites. + HISP_p + TOTAL.POPULATION + (1 | Neighborhood),
-             data = model_data_scale,
-             family = 'binomial')
-summary(mlm_c_8)
+## mlm_c_8 <- glmer(desert ~ CTA_counts + vacant_counts + Dependency + Cancer..All.Sites. + HISP_p + TOTAL.POPULATION + (1 | Neighborhood),
+##              data = model_data_scale,
+##              family = 'binomial')
+## summary(mlm_c_8)
 
-mlm_c_9 <- glmer(desert ~ CTA_counts + vacant_counts + Dependency + Cancer..All.Sites. + NHB_p +  TOTAL.POPULATION + (1 | Neighborhood),
-             data = model_data_scale,
-             family = 'binomial')
-summary(mlm_c_9)
+## mlm_c_9 <- glmer(desert ~ CTA_counts + vacant_counts + Dependency + Cancer..All.Sites. + NHB_p +  TOTAL.POPULATION + (1 | Neighborhood),
+##              data = model_data_scale,
+##              family = 'binomial')
+## summary(mlm_c_9)
 
-mlm_c_10 <- glmer(desert ~ CTA_counts + vacant_counts + Dependency + Cancer..All.Sites. + Diabetes.related + TOTAL.POPULATION + (1 | Neighborhood),
-             data = model_data_scale,
-             family = 'binomial')
-summary(mlm_c_10)
+## mlm_c_10 <- glmer(desert ~ CTA_counts + vacant_counts + Dependency + Cancer..All.Sites. + Diabetes.related + TOTAL.POPULATION + (1 | Neighborhood),
+##              data = model_data_scale,
+##              family = 'binomial')
+## summary(mlm_c_10)
 
 cor(model_data[, c('Diabetes.related', 'NHB_p', 'NHW_p', 'HISP_p', 'PER.CAPITA.INCOME')])
 
-search_covariates <- setdiff(potential_covariates, c('vacant_counts', 'CTA_counts'))
+search_covariates <- setdiff(potential_covariates, c('vacant_counts', 'CTA_counts', 'Community.Area.Number'))
 
 best_model <- glmer(desert ~ vacant_counts + CTA_counts + (1 | Neighborhood),
                     data = model_data_scale,
@@ -117,7 +117,7 @@ out_vars <- search_covariates
 library(parallel)
 library(doMC)
 
-registerDoMC(3)
+registerDoMC(detectCores() - 3)
 
 old_aic <- AIC(best_model)
 
@@ -134,10 +134,10 @@ while(TRUE) {
     search_results <- foreach(i=1:length(out_vars), .combine = 'rbind') %dopar% fit_model(i)
     min_aic <- which.min(search_results[,2])
     if (min_aic < old_aic) {
-        print(paste('ADDING:',out_vars[i]))
-        in_vars <- c(in_vars, out_vars[i])
-        out_vars <- setdiff(out_vars, out_vars[i])
-        
+        print(paste('ADDING:',out_vars[min_aic]))
+        in_vars <- c(in_vars, out_vars[min_aic])
+        out_vars <- setdiff(out_vars, out_vars[min_aic])
+        print(search_results[min_aic,])
     }
     else {
         break

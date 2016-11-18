@@ -34,13 +34,16 @@ nbhd_df <- merge(nbhd_points, data.shape@data, by = 'id')
 ggplot(nbhd_df, aes(long, lat, group = id)) + geom_path()
 
 # add to data a new column termed "id" composed of the rownames of data
-dataProjected@data$id <- rownames(dataProjected@data)
+data.shape@data$id <- rownames(data.shape@data)
  
 # create a data.frame from our spatial object
-watershedPoints <- fortify(dataProjected, region = "id")
+watershedPoints <- fortify(data.shape, region = "id")
  
 # merge the "fortified" data with the data from our spatial object
-watershedDF <- merge(watershedPoints, dataProjected@data, by = "id")
+watershedDF <- merge(nbhd_df, data.shape@data, by = "id")
+
+
+
 
 ## sp_block_data <- block_data
 ## coordinates(sp_block_data) <- ~ Longitude + Latitude
