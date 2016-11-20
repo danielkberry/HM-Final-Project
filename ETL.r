@@ -94,6 +94,18 @@ CTA_counts <- read.csv('CTA_counts.csv')
 
 blocks_raw$CTA_counts <- CTA_counts$x
 
+library(data.table)
+crimes <- fread('../rows.csv')
+
+    t2 <- as.matrix(crime_2009[,c('Latitude', 'Longitude'), with = FALSE])
+tmp <- ddply(blocks_raw, .(GEOID10), function(df) {
+    t1 <- as.matrix(df[1,c('Latitude', 'Longitude')])
+
+    dists <- spDists(t1,t2)
+    
+    count <- nrow(crime_2009[])
+})
+
 groceries <- read.csv('food-deserts-master/data/Grocery_Stores_-_2011.csv', stringsAsFactors = FALSE)
 ## drop liquor stores
 groceries <- groceries[grep('liquor', tolower(groceries$STORE.NAME), invert = TRUE),]
@@ -131,7 +143,7 @@ nrow(block_data <- merge(blocks_raw, population, by.x = 'TRACT_BLOC', by.y = 'CE
 
 library(data.table)
 
-crime <- fread('rows.csv')
+crime <- fread('../rows.csv')
 
 library(ggplot2)
 

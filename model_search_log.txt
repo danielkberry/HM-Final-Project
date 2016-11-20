@@ -1,0 +1,440 @@
+
+Call:
+glm(formula = desert ~ CTA_counts + vacant_counts, family = "binomial", 
+    data = model_data)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-0.9772  -0.5019  -0.3356  -0.1993   3.3938  
+
+Coefficients:
+                Estimate Std. Error z value Pr(>|z|)    
+(Intercept)   -1.338e+00  3.102e-02  -43.12   <2e-16 ***
+CTA_counts    -3.053e-04  7.756e-06  -39.36   <2e-16 ***
+vacant_counts  8.445e-04  3.629e-05   23.27   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 22117  on 36869  degrees of freedom
+Residual deviance: 19828  on 36867  degrees of freedom
+AIC: 19834
+
+Number of Fisher Scoring iterations: 6
+
+
+Call:
+glm(formula = desert ~ CTA_counts + vacant_counts + Neighborhood, 
+    family = "binomial", data = model_data)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.3113  -0.3079  -0.0001   0.0000   3.7257  
+
+Coefficients:
+                                     Estimate Std. Error z value Pr(>|z|)    
+(Intercept)                        -1.942e+01  7.577e+02  -0.026    0.980    
+CTA_counts                         -1.507e-04  1.170e-05 -12.878   <2e-16 ***
+vacant_counts                      -8.379e-04  7.794e-05 -10.751   <2e-16 ***
+NeighborhoodArcher Heights         -3.791e-01  1.447e+03   0.000    1.000    
+NeighborhoodArmour Square           1.795e+01  7.577e+02   0.024    0.981    
+NeighborhoodAshburn                 1.831e+01  7.577e+02   0.024    0.981    
+NeighborhoodAuburn Gresham          1.414e+01  7.577e+02   0.019    0.985    
+NeighborhoodAustin                  1.695e+01  7.577e+02   0.022    0.982    
+NeighborhoodAvalon Park             1.601e+01  7.577e+02   0.021    0.983    
+NeighborhoodAvondale                4.660e-01  1.121e+03   0.000    1.000    
+NeighborhoodBelmont Cragin         -2.318e-01  9.511e+02   0.000    1.000    
+NeighborhoodBeverly                 1.698e+01  7.577e+02   0.022    0.982    
+NeighborhoodBridgeport              1.618e+01  7.577e+02   0.021    0.983    
+NeighborhoodBrighton Park          -2.943e-01  1.090e+03   0.000    1.000    
+NeighborhoodBurnside               -1.995e-02  2.107e+03   0.000    1.000    
+NeighborhoodCalumet Heights         1.550e+01  7.577e+02   0.020    0.984    
+NeighborhoodChatham                 1.762e+01  7.577e+02   0.023    0.981    
+NeighborhoodChicago Lawn            1.760e+01  7.577e+02   0.023    0.981    
+NeighborhoodClearing                2.015e+01  7.577e+02   0.027    0.979    
+NeighborhoodDouglas                 2.638e-01  1.789e+03   0.000    1.000    
+NeighborhoodDunning                 1.840e+01  7.577e+02   0.024    0.981    
+NeighborhoodEast Side              -9.499e-01  1.161e+03  -0.001    0.999    
+NeighborhoodEdgewater               2.897e-01  1.092e+03   0.000    1.000    
+NeighborhoodEdison Park             1.637e+01  7.577e+02   0.022    0.983    
+NeighborhoodEnglewood               1.968e+01  7.577e+02   0.026    0.979    
+NeighborhoodForest Glen             1.780e+01  7.577e+02   0.023    0.981    
+NeighborhoodFuller Park             1.846e+01  7.577e+02   0.024    0.981    
+NeighborhoodGage Park              -3.810e-02  1.117e+03   0.000    1.000    
+NeighborhoodGarfield Park           2.042e+01  7.577e+02   0.027    0.979    
+NeighborhoodGarfield Ridge          1.838e+01  7.577e+02   0.024    0.981    
+NeighborhoodGrand Boulevard         1.823e+01  7.577e+02   0.024    0.981    
+NeighborhoodGreater Grand Crossing  1.174e+00  1.060e+03   0.001    0.999    
+NeighborhoodHegewisch               2.202e+01  7.577e+02   0.029    0.977    
+NeighborhoodHermosa                -9.721e-02  1.319e+03   0.000    1.000    
+NeighborhoodHumboldt Park           1.438e+01  7.577e+02   0.019    0.985    
+NeighborhoodHyde Park               3.205e-01  1.586e+03   0.000    1.000    
+NeighborhoodIrving Park            -4.502e-02  1.001e+03   0.000    1.000    
+NeighborhoodJefferson Park         -6.284e-01  1.084e+03  -0.001    1.000    
+NeighborhoodKenwood                 1.392e-01  1.833e+03   0.000    1.000    
+NeighborhoodLake View               5.526e-01  9.975e+02   0.001    1.000    
+NeighborhoodLincoln Park            2.953e-01  1.092e+03   0.000    1.000    
+NeighborhoodLincoln Square          1.509e-01  1.087e+03   0.000    1.000    
+NeighborhoodLogan Square            3.683e-01  9.290e+02   0.000    1.000    
+NeighborhoodLoop                    4.566e+00  1.623e+03   0.003    0.998    
+NeighborhoodLower West Side        -1.938e-01  1.142e+03   0.000    1.000    
+NeighborhoodMcKinley Park          -4.424e-01  1.387e+03   0.000    1.000    
+NeighborhoodMontclaire             -6.408e-01  1.429e+03   0.000    1.000    
+NeighborhoodMorgan Park             1.430e+01  7.577e+02   0.019    0.985    
+NeighborhoodMount Greenwood        -1.030e+00  1.241e+03  -0.001    0.999    
+NeighborhoodNear North Side         1.297e+00  1.065e+03   0.001    0.999    
+NeighborhoodNear South Side         2.229e-01  1.646e+03   0.000    1.000    
+NeighborhoodNear West Side          1.981e+01  7.577e+02   0.026    0.979    
+NeighborhoodNew City                1.754e+01  7.577e+02   0.023    0.982    
+NeighborhoodNorth Center            2.745e-02  1.073e+03   0.000    1.000    
+NeighborhoodNorth Lawndale          2.014e+01  7.577e+02   0.027    0.979    
+NeighborhoodNorth Park             -5.248e-01  1.315e+03   0.000    1.000    
+NeighborhoodNorwood Park            1.584e+01  7.577e+02   0.021    0.983    
+NeighborhoodOakland                -3.464e-01  2.337e+03   0.000    1.000    
+NeighborhoodO'Hare                  1.737e+01  7.577e+02   0.023    0.982    
+NeighborhoodPortage Park            1.701e+01  7.577e+02   0.022    0.982    
+NeighborhoodPullman                 2.048e+01  7.577e+02   0.027    0.978    
+NeighborhoodRiverdale              -9.043e-01  2.643e+03   0.000    1.000    
+NeighborhoodRogers Park            -1.622e-01  1.141e+03   0.000    1.000    
+NeighborhoodRoseland                2.112e+01  7.577e+02   0.028    0.978    
+NeighborhoodSouth Chicago           4.672e-01  1.067e+03   0.000    1.000    
+NeighborhoodSouth Deering           1.845e+01  7.577e+02   0.024    0.981    
+NeighborhoodSouth Lawndale         -8.053e-02  1.039e+03   0.000    1.000    
+NeighborhoodSouth Shore             1.492e+01  7.577e+02   0.020    0.984    
+NeighborhoodUptown                  8.181e-01  1.291e+03   0.001    0.999    
+NeighborhoodWashington Heights      1.733e+01  7.577e+02   0.023    0.982    
+NeighborhoodWashington Park         1.983e+01  7.577e+02   0.026    0.979    
+NeighborhoodWest Elsdon            -3.509e-01  1.288e+03   0.000    1.000    
+NeighborhoodWest Lawn               1.805e+01  7.577e+02   0.024    0.981    
+NeighborhoodWest Pullman            2.041e+01  7.577e+02   0.027    0.979    
+NeighborhoodWest Ridge              1.843e+01  7.577e+02   0.024    0.981    
+NeighborhoodWest Town               5.568e-01  9.418e+02   0.001    1.000    
+NeighborhoodWoodlawn                1.745e+01  7.577e+02   0.023    0.982    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 22117  on 36869  degrees of freedom
+Residual deviance: 12833  on 36793  degrees of freedom
+AIC: 12987
+
+Number of Fisher Scoring iterations: 19
+
+Generalized linear mixed model fit by maximum likelihood (Laplace
+  Approximation) [glmerMod]
+ Family: binomial  ( logit )
+Formula: desert ~ CTA_counts + vacant_counts + (1 | Neighborhood)
+   Data: model_data
+
+     AIC      BIC   logLik deviance df.resid 
+ 13156.6  13190.6  -6574.3  13148.6    36866 
+
+Scaled residuals: 
+   Min     1Q Median     3Q    Max 
+-3.621 -0.220 -0.025 -0.014 32.033 
+
+Random effects:
+ Groups       Name        Variance Std.Dev.
+ Neighborhood (Intercept) 15.93    3.991   
+Number of obs: 36870, groups:  Neighborhood, 75
+
+Fixed effects:
+                Estimate Std. Error z value Pr(>|z|)    
+(Intercept)   -5.039e+00  6.580e-01  -7.658 1.89e-14 ***
+CTA_counts    -1.528e-04  1.167e-05 -13.093  < 2e-16 ***
+vacant_counts -8.288e-04  7.792e-05 -10.637  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+            (Intr) CTA_cn
+CTA_counts  -0.106       
+vacant_cnts -0.029  0.061
+fit warnings:
+Some predictor variables are on very different scales: consider rescaling
+convergence code: 0
+Model failed to converge with max|grad| = 0.459833 (tol = 0.001, component 1)
+Model is nearly unidentifiable: very large eigenvalue
+ - Rescale variables?
+Model is nearly unidentifiable: large eigenvalue ratio
+ - Rescale variables?
+
+                  Diabetes.related      NHB_p       NHW_p      HISP_p
+Diabetes.related         1.0000000  0.6920375 -0.66904546 -0.19956024
+NHB_p                    0.6920375  1.0000000 -0.72322444 -0.60656903
+NHW_p                   -0.6690455 -0.7232244  1.00000000 -0.08329904
+HISP_p                  -0.1995602 -0.6065690 -0.08329904  1.00000000
+PER.CAPITA.INCOME       -0.5311231 -0.4134438  0.77318759 -0.28250282
+                  PER.CAPITA.INCOME
+Diabetes.related         -0.5311231
+NHB_p                    -0.4134438
+NHW_p                     0.7731876
+HISP_p                   -0.2825028
+PER.CAPITA.INCOME         1.0000000
+Generalized linear mixed model fit by maximum likelihood (Laplace
+  Approximation) [glmerMod]
+ Family: binomial  ( logit )
+Formula: desert ~ CTA_counts + vacant_counts + Gonorrhea.in.Females +  
+    Cancer..All.Sites. + TOTAL.POPULATION + NHAS + Dependency +  
+    Childhood.Lead.Poisoning + Prenatal.Care.Beginning.in.First.Trimester +  
+    Gonorrhea.in.Males + NHAM_p + Multiple.Race.. + Stroke..Cerebrovascular.Disease. +  
+    Firearm.related + Tuberculosis + NHW_p + Teen.Birth.Rate +  
+    No.High.School.Diploma + Lung.Cancer + (1 | Neighborhood)
+   Data: model_data_scale
+
+     AIC      BIC   logLik deviance df.resid 
+ 10903.2  11079.0  -5430.6  10861.2    31895 
+
+Scaled residuals: 
+   Min     1Q Median     3Q    Max 
+-1.583 -0.220 -0.027 -0.007 52.606 
+
+Random effects:
+ Groups       Name        Variance Std.Dev.
+ Neighborhood (Intercept) 1.659    1.288   
+Number of obs: 31916, groups:  Neighborhood, 61
+
+Fixed effects:
+                                           Estimate Std. Error z value Pr(>|z|)
+(Intercept)                                -6.04389    0.43100 -14.023  < 2e-16
+CTA_counts                                 -0.57036    0.05995  -9.514  < 2e-16
+vacant_counts                              -0.37881    0.03749 -10.103  < 2e-16
+Gonorrhea.in.Females                       -3.75424    1.00762  -3.726 0.000195
+Cancer..All.Sites.                         -0.38926    0.96506  -0.403 0.686684
+TOTAL.POPULATION                           -0.13080    0.04953  -2.641 0.008268
+NHAS                                        1.55942    0.37469   4.162 3.16e-05
+Dependency                                  3.67987    0.70804   5.197 2.02e-07
+Childhood.Lead.Poisoning                   -2.02847    0.39449  -5.142 2.72e-07
+Prenatal.Care.Beginning.in.First.Trimester  2.73538    0.56364   4.853 1.22e-06
+Gonorrhea.in.Males                          2.78710    0.86146   3.235 0.001215
+NHAM_p                                     -2.02641    0.46288  -4.378 1.20e-05
+Multiple.Race..                             2.78784    0.71371   3.906 9.38e-05
+Stroke..Cerebrovascular.Disease.            1.97571    0.50931   3.879 0.000105
+Firearm.related                             1.87312    0.78146   2.397 0.016532
+Tuberculosis                                0.94905    0.28908   3.283 0.001027
+NHW_p                                       0.95131    0.77969   1.220 0.222421
+Teen.Birth.Rate                             3.29780    0.91654   3.598 0.000321
+No.High.School.Diploma                     -2.12871    0.75498  -2.820 0.004809
+Lung.Cancer                                 1.31915    0.79116   1.667 0.095442
+                                              
+(Intercept)                                ***
+CTA_counts                                 ***
+vacant_counts                              ***
+Gonorrhea.in.Females                       ***
+Cancer..All.Sites.                            
+TOTAL.POPULATION                           ** 
+NHAS                                       ***
+Dependency                                 ***
+Childhood.Lead.Poisoning                   ***
+Prenatal.Care.Beginning.in.First.Trimester ***
+Gonorrhea.in.Males                         ** 
+NHAM_p                                     ***
+Multiple.Race..                            ***
+Stroke..Cerebrovascular.Disease.           ***
+Firearm.related                            *  
+Tuberculosis                               ** 
+NHW_p                                         
+Teen.Birth.Rate                            ***
+No.High.School.Diploma                     ** 
+Lung.Cancer                                .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+convergence code: 0
+Model failed to converge with max|grad| = 0.0662357 (tol = 0.001, component 1)
+failure to converge in 10000 evaluations
+
+[1] "fitting: 1"
+[1] "fitting: 2"
+[1] "fitting: 3"
+[1] "fitting: 4"
+[1] "fitting: 5"
+[1] "fitting: 7"
+[1] "fitting: 6"
+[1] "fitting: 8"
+[1] "fitting: 9"
+[1] "fitting: 10"
+[1] "fitting: 11"
+[1] "fitting: 12"
+[1] "fitting: 13"
+[1] "fitting: 14"
+[1] "fitting: 15"
+[1] "fitting: 16"
+[1] "fitting: 17"
+[1] "fitting: 18"
+[1] "fitting: 19"
+[1] "fitting: 22"
+[1] "fitting: 20"
+[1] "fitting: 24"
+[1] "fitting: 21"
+[1] "fitting: 25"
+[1] "fitting: 23"
+[1] "fitting: 27"
+[1] "fitting: 26"
+[1][1] "fitting: 29"
+ "fitting: 30"
+[1] "fitting: 28"
+[1] "fitting: 31"
+[1][1] "fitting: 32" "fitting: 33"
+
+[1] "ADDING: Colorectal.Cancer"
+[1]     7.00 10903.27
+[1] "fitting: 1"
+[1] "fitting: 2"
+[1] "fitting: 3"
+[1] "fitting: 4"
+[1] "fitting: 5"
+[1] "fitting: 6"
+[1] "fitting: 7"
+[1] "fitting: 8"
+[1] "fitting: 9"
+[1] "fitting: 10"
+[1] "fitting: 11"
+[1] "fitting: 12"
+[1][1] "fitting: 14"
+ "fitting: 13"
+[1] "fitting: 15"
+[1] "fitting: 16"
+[1] "fitting: 17"
+[1] "fitting: 18"
+[1] "fitting: 19"
+[1] "fitting: 23"
+[1] "fitting: 22"
+[1][1] "fitting: 24"
+ "fitting: 20"
+[1] "fitting: 21"
+[1] "fitting: 25"
+[1] "fitting: 26"
+[1] "fitting: 27"
+[1] "fitting: 28"
+[1] "fitting: 29"
+[1] "fitting: 30"
+[1] "fitting: 31"
+[1] "fitting: 32"
+[1] "ADDING: HISP_p"
+[1]    31.00 10902.28
+[1] "fitting: 1"
+[1] "fitting: 2"
+[1] "fitting: 3"
+[1] "fitting: 4"
+[1] "fitting: 5"
+[1] "fitting: 6"
+[1] "fitting: 7"
+[1] "fitting: 8"
+[1] "fitting: 9"
+[1] "fitting: 10"
+[1] "fitting: 11"
+[1] "fitting: 12"
+[1] "fitting: 14"
+[1] "fitting: 13"
+[1] "fitting: 15"
+[1] "fitting: 16"
+[1] "fitting: 17"
+[1] "fitting: 18"
+[1] "fitting: 19"
+[1][1][1] "fitting: 22"
+ "fitting: 20"
+[1] "fitting: 21"
+ "fitting: 23"
+[1][1] "fitting: 24"
+ "fitting: 25"
+[1] "fitting: 26"
+[1] "fitting: 27"
+[1] "fitting: 28"
+[1] "fitting: 29"
+[1] "fitting: 30"
+[1] "fitting: 31"
+[1] "ADDING: Below.Poverty.Level"
+[1]    11.00 10899.04
+[1] "fitting: 1"
+[1] "fitting: 2"
+[1] "fitting: 3"
+[1] "fitting: 4"
+[1] "fitting: 5"
+[1] "fitting: 6"
+[1] "fitting: 7"
+[1] "fitting: 8"
+[1] "fitting: 9"
+[1] "fitting: 10"
+[1] "fitting: 11"
+[1] "fitting: 12"
+[1] "fitting: 14"
+[1] "fitting: 13"
+[1] "fitting: 15"
+[1] "fitting: 16"
+[1] "fitting: 17"
+[1][1] "fitting: 20"
+ "fitting: 18"
+[1] "fitting: 19"
+[1] "fitting: 21"
+[1] "fitting: 23"
+[1] "fitting: 22"
+[1] "fitting: 25"
+[1] "fitting: 24"
+[1] "fitting: 27"
+[1] "fitting: 28"
+[1] "fitting: 26"
+[1] "fitting: 29"
+[1] "fitting: 30"
+[1] "ADDING: Breast.cancer.in.females"
+[1]     6.00 10895.49
+[1] "fitting: 1"
+[1] "fitting: 2"
+[1] "fitting: 3"
+[1] "fitting: 4"
+[1] "fitting: 5"
+[1] "fitting: 6"
+[1] "fitting: 7"
+[1] "fitting: 8"
+[1] "fitting: 9"
+[1] "fitting: 10"
+[1] "fitting: 11"
+[1] "fitting: 14"
+[1] "fitting: 12"
+[1] "fitting: 13"
+[1] "fitting: 15"
+[1] "fitting: 16"
+[1] "fitting: 17"
+[1] "fitting: 18"
+[1] "fitting: 19"
+[1] "fitting: 20"
+[1] "fitting: 25"
+[1] "fitting: 21"[1]
+[1] "fitting: 26"
+ "fitting: 22"
+[1][1] "fitting: 27"
+ "fitting: 23"
+[1][1] "fitting: 28"
+ "fitting: 24"
+[1] "fitting: 29"
+[1] "ADDING: NHAM"
+[1]    22.00 10892.26
+[1] "fitting: 1"
+[1] "fitting: 2"
+[1] "fitting: 3"
+[1] "fitting: 4"
+[1] "fitting: 5"
+[1] "fitting: 6"
+[1] "fitting: 7"
+[1] "fitting: 8"
+[1] "fitting: 9"
+[1] "fitting: 10"
+[1] "fitting: 11"
+[1] "fitting: 12"
+[1] "fitting: 13"
+[1] "fitting: 14"
+[1] "fitting: 15"
+[1] "fitting: 16"
+[1] "fitting: 17"
+[1] "fitting: 18"
+[1] "fitting: 20"
+[1] "fitting: 19"
+[1] "fitting: 21"
+[1] "fitting: 22"
+[1] "fitting: 24"
+[1] "fitting: 23"
+[1] "fitting: 25"
+[1] "fitting: 26"
+[1] "fitting: 27"
+[1] "fitting: 28"
