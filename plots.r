@@ -53,15 +53,18 @@ watershedDF <- merge(nbhd_df, data.shape@data, by = "id")
 
 ## sp_block_data_df <- fortify(sp_block_data)
 
-ggmap(base_map, extent = 'normal') + geom_point(aes(Longitude, Latitude, color = missing), data = plot_data, alpha = .01)
+ggmap(base_map, extent = 'normal') +
+    geom_point(aes(Longitude, Latitude, color = missing), data = plot_data, alpha = .01) + theme_bw()
 
 t <- project(as.matrix(nbhd_df[,c('long', 'lat')]),'+proj=merc +lat_0=36.66666666666666+lon_0=-88.33333333333333', inv = TRUE)
 
 head(t <- project(as.matrix(nbhd_df[,c('long', 'lat')]),'+proj=merc +lat_0=36.66666666666666+lon_0=-88.33333333333333', inv = TRUE))
 
-head(t <- project(as.matrix(nbhd_df[,c('long', 'lat')]),'+proj=merc +lat_0=36.66666666666666 +lon_0=-88.33333333333333 +k=0.9999749999999999 +x_0=300000 +y_0=0', inv = TRUE))
+head(t <- project(as.matrix(all_data[,c('Longitude', 'Latitude')]),'+proj=tmerc +lat_0=36.66666666666666 +lon_0=-88.33333333333333 +k=0.9999749999999999 +x_0=300000 +y_0=0 +datum=NAD83 +units=us-ft +no_defs +ellps=GRS80 +towgs84=0,0,0'))
 
 
+all_data$Longitude_t <- t[,1]
+all_data$Latitude_t <- t[,2]
 ######################
 ## Univariate Plots ##
 ######################
@@ -99,4 +102,16 @@ for (covar in potential_covariates) {
 ##########
 
 all_data$desert_logical <- all_data$desert == 1
-ggplot(all_data, aes(x = Longitude, y = Latitude, color = desert_logical)) + geom_point(alpha = .1) + theme_bw()
+
+ggplot(all_data, aes(x = Longitude_t, y = Latitude_t, color = desert_logical)) +
+    geom_point(alpha = .1) +
+    theme_bw() +
+    scale_color_manual(values = c('grey', 'black')) +
+    geom_path(data = nbhd_df, aes(long, lat, group = id, color = NULL))
+
+ggplot(all_data, aes(x = Longitude_t, y = Latitude_t, color = NHB_p)) +
+    geom_point(alpha = .1) +
+    theme_bw() +
+    geom_path(data = nbhd_df, aes(long, lat, group = id, color = NULL)) +
+    labs()
+    
