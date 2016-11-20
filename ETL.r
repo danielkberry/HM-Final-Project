@@ -95,16 +95,47 @@ CTA_counts <- read.csv('CTA_counts.csv')
 blocks_raw$CTA_counts <- CTA_counts$x
 
 library(data.table)
+library(plyr)
 crimes <- fread('../rows.csv')
 
-    t2 <- as.matrix(crime_2009[,c('Latitude', 'Longitude'), with = FALSE])
-tmp <- ddply(blocks_raw, .(GEOID10), function(df) {
-    t1 <- as.matrix(df[1,c('Latitude', 'Longitude')])
+doMC::registerDoMC(parallel::detectCores() - 3)
 
-    dists <- spDists(t1,t2)
-    
-    count <- nrow(crime_2009[])
-})
+t2 <- as.matrix(crimes[Year == 2009,c('Latitude', 'Longitude'), with = FALSE])
+t2 <- t2[apply(is.na(t2),1,function(s) !any(s)),]
+
+## count_func <- function(i) {
+##     print(i)
+##     t1 <- as.matrix(blocks_raw[i,c('Latitude', 'Longitude')])
+
+##     dists <- spDists(t1,t2, longlat = TRUE)
+
+##     count <- sum(dists <= 1, na.rm = TRUE)
+##     return(count)
+## }
+
+## tmp2 <- ddply(blocks_raw, .(GEOID10), function(df) {
+##     t1 <- as.matrix(df[1,c('Latitude', 'Longitude')])
+##     tryCatch({
+##         dists <- spDists(t1,t2, longlat = TRUE)
+##     }, error = function(e) return(c(df$GEOID10[1], -1)))
+##     count <- sum(dists <= 1, na.rm = TRUE)
+##     return(c(df$GEOID10[1],count))
+## }, .progress = 'text', .parallel = TRUE )
+
+count_func <- function(i) {
+    print(i)
+    t1 <- as.matrix(blocks_raw[i,c('Latitude', 'Longitude')])
+
+    dists <- spDists(t1,t2, longlat = TRUE)
+
+    count <- sum(dists <= 1, na.rm = TRUE)
+    return(count)
+}
+
+library(foreach)
+
+result <- foreach(i=1:nrow(blocks_raw), .combine = c) %dopar% count_func(i)
+
 
 groceries <- read.csv('food-deserts-master/data/Grocery_Stores_-_2011.csv', stringsAsFactors = FALSE)
 ## drop liquor stores
