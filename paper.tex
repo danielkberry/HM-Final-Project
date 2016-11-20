@@ -1,6 +1,8 @@
 \documentclass{IEEEtran}
 
-\title{Access to food in Chicago: \\ a hierarchical perspective}
+
+
+\title{Access to Food in Chicago: \\ a Hierarchical Perspective}
 \author{Daniel Berry}
 
 \begin{document}
@@ -8,12 +10,48 @@
 \maketitle
 
 \begin{abstract}
-  Access to readily available and inexpensive healthy food options is important for personal health. 
+  Easy access to healthy, nutrient rich foods is a current public health crisis in the United States. Areas that have limited access to healthy foods and easy access to unhealthy foods are called ``food deserts''.  %TODO: citation
+  In the United States today, X million people are living in a food desert. %TODO: citation
+  Access to food can be measured at the city-block level and can have substantial variation within a single neighborhood. However, much publicly available city wide health data is available at the neighborhood level. This gives the data a natural hierarchical structure as city blocks are nested within neighborhoods. In this paper we model presence/absence of deserts using a combination of block-level and neighborhood-level data from the city of Chicago. We apply construct a hierarchical logistic regression model and demonstrate its superiority. 
 \end{abstract}
 
 \section{Introduction}
+Access to readily available and inexpensive healthy food options is important for personal health. Unfortunately, for some in society today, access is not equitable. Some towns and neighborhoods have excellent healthy food options. Others do not. In some locations it is difficult to impossible for many residents to find healthy food options. In these areas, known as food deserts, there is readily available processed, calorie dense but nutrient poor foods.
 
+A person's access to food is determined by the city block in which they live. Any increase in precision beyond the city block level is meaningless. However, rarely is data reported at the city block level. Sampling variability at that level would make drawing conclusions difficult. For that and other reasons, often city data is reported at the neighborhood, zip code, or telephone area code level. This gives the data a natural hierarchical structure where city blocks are nested within neighborhoods. 
+
+\subsection{Food Deserts}
+There is no single agreed upon definition of a food desert. Some common metrics are based on distances to nearest supermarket with cutoffs at 1 mile for urban areas and 10 miles for rural areas. 1 mile may seem like a short distance to travel, but in urban areas with low car ownership rates where residents rely on public transportation, a 1 mile journey can take a substantial amount of time. 
+% TODO: insert citation
+For this work we used the definition from %TODO: citation
+of defining a city block as being in a food desert if the city block is more than 1 mile from a supermarket. Supermarket in this context is a grocery store that is larger than 10000 square feet %TODO: citation
+that is not primarily a liquor store. Distance is defined as the great circle distance from the center of mass of the city block to the center of mass of the grocery store. 
 \section{Methods}
+
+\subsection{Data Sources}
+
+All data was sourced from the generous Open Data Portal operated by the city of Chicago. The portal can be found at data.cityofchicago.org. We utilized the following data files:
+\begin{itemize}
+\item Block level data
+  \begin{itemize}
+  \item Crimes 2001 - present
+  \item 311 Service Requests: Vacant Buildings
+  \item CTA Ridership: Avg. Weekly Boardings during October 2010
+  \end{itemize}
+\item Neighborhood level data
+  \begin{itemize}
+  \item Public Health Statistics: selected public health indicators by Chicago community area
+  \item Census Data: Selected socioeconomic indicators    
+  \item Census Block Population    
+  \item Race by Community Area 
+  \end{itemize}
+\end{itemize}
+
+\subsection{Generalized Linear Models}
+
+\subsection{Hierarchical Models}
+
+\subsection{Model Comparison}
 
 \section{Results}
 
