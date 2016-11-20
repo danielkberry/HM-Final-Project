@@ -152,4 +152,26 @@ model <- glmer(desert ~ CTA_counts + vacant_counts + Gonorrhea.in.Females + Canc
                (1|Neighborhood),
                data = model_data_scale,
                family = 'binomial')
+
 summary(model)
+
+in_vars <- c("Gonorrhea.in.Females" , 'Cancer..All.Sites.' , 'TOTAL.POPULATION' , 'NHAS' ,
+                   'Dependency' ,'Childhood.Lead.Poisoning' , 'Prenatal.Care.Beginning.in.First.Trimester' , 'Gonorrhea.in.Males'
+               , 'NHAM_p' , 'Multiple.Race..' , 'Stroke..Cerebrovascular.Disease.' , 'Firearm.related' , 'Tuberculosis' , 'NHW_p' ,
+             'Teen.Birth.Rate' , 'No.High.School.Diploma' , 'Lung.Cancer')
+out_vars <- setdiff(search_covariates, in_vars)
+
+
+old_aic <- AIC(model)
+
+search_results <- foreach(i=1:length(out_vars), .combine = 'rbind') %dopar% fit_model(i)
+min_aic <- which.min(search_results[,2])
+if (min_aic < old_aic) {
+    print(paste('ADDING:',out_vars[min_aic]))
+    in_vars <- c(in_vars, out_vars[min_aic])
+    out_vars <- setdiff(out_vars, out_vars[min_aic])
+    print(search_results[min_aic,])
+}
+else {
+    break
+}
