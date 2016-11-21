@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  21 NOV 2016 13:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  21 NOV 2016 15:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -169,14 +169,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 65--66
 
 [2]
 
-LaTeX Warning: Float too large for page by 408.55894pt on input line 384.
+LaTeX Warning: Float too large for page by 408.55894pt on input line 382.
 
 [3] [4] [5] [6] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
- 1381 strings out of 493014
- 17385 string characters out of 6133351
- 97656 words of memory out of 5000000
- 4960 multiletter control sequences out of 15000+600000
+ 1383 strings out of 493014
+ 17397 string characters out of 6133351
+ 99672 words of memory out of 5000000
+ 4962 multiletter control sequences out of 15000+600000
  9369 words of font info for 34 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  27i,9n,32p,1165b,268s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -193,7 +193,7 @@ nts/cm/cmr7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmsy7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmti10.pfb>
-Output written on paper.pdf (8 pages, 148983 bytes).
+Output written on paper.pdf (8 pages, 150024 bytes).
 PDF statistics:
  79 PDF objects out of 1000 (max. 8388607)
  56 compressed objects within 1 object stream

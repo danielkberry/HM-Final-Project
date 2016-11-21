@@ -12,6 +12,8 @@
    (LaTeX-add-labels
     "cpresult"
     "npresult"
-    "ppresult"))
+    "ppresult"
+    "AICs"
+    "MSEs"))
  :latex)
 

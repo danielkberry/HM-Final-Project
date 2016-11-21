@@ -339,10 +339,10 @@ model4 <- glmer(desert ~ CTA_counts +
                verbose = TRUE,
                control = glmerControl(calc.derivs = FALSE, optCtrl=list(maxfun=5000)))
 
-cp_mse <- c(); np_mse <- c(); pp_mse <- c(); mlm_mse <- c();
+cp_mses <- c(); np_mses <- c(); pp_mses <- c(); mlm_mses <- c();
 
 for (i in 1:10) {
-    cv_ind <- runif(nrow(model_data_scale)) < .8
+    cv_ind <- sample.split(model_data_scale$Neighborhood, SplitRatio = .8)
     train <- model_data_scale[cv_ind,]
     test <- model_data_scale[!cv_ind,]
 
@@ -376,12 +376,29 @@ for (i in 1:10) {
                     (1|Neighborhood),
                 data = train,
                 family = 'binomial',
-                control = glmerControl(calc.derivs = FALSE, optCtrl=list(maxfun=5000)))
+                control = glmerControl(calc.derivs = FALSE, optCtrl=list(maxfun=1000)))
+    
     print(paste('AIC mlm:', AIC(mlm)))
     
     print(paste('EVALUATING: ', i))
 
-    
+    cp_pred <- predict(cp, test, allow.new.levels = TRUE, type = 'response')
+
+    print(cp_mse <- mean((cp_pred - test$desert)^2))
+    cp_mses <- c(cp_mses, cp_mse)
+
+
+    np_pred <- predict(np, test, allow.new.levels = TRUE, type = 'response')
+    print(np_mse <- mean((np_pred - test$desert)^2))
+    np_mses <- c(np_mses, np_mse)
+
+    pp_pred <- predict(pp, test, allow.new.levels = TRUE, type = 'response')
+    print(pp_mse <- mean((pp_pred - test$desert)^2))
+    pp_mses <- c(pp_mses, pp_mse)
+
+    mlm_pred <- predict(mlm, test, allow.new.levels = TRUE, type = 'response')
+    print(mlm_mse <- mean((mlm_pred - test$desert)^2, na.rm = TRUE))
+    mlm_mses <- c(mlm_mses, mlm_mse)
     
 }
 

@@ -116,9 +116,7 @@ Where $\epsilon_i \sim N(0, \sigma^2)$ and $\alpha_j \sim N(X_N \beta_N, \sigma^
 
 \subsection*{Model Comparison}
 
-Models were compared using AIC and cross validated Breir Score (Mean Square Error in the case of 2-class logistic regression).
-
-
+Models were compared using AIC and cross validated Breir Score (Mean Square Error in the case of 2-class logistic regression). Lower values of AIC indicate better fitting models and thus can be used to compare the performance of models to each other. The cross validation was performed 10 fold where the model was fit on 80\% of the data and evaluated on the remaining 20\%. This gives a way of quantifying the predictive ability of the model on new, unseen data. 
 
 \section*{Results}
 
@@ -443,8 +441,40 @@ Bayesian Inf. Crit. & 13,181.990 \\
 
 \subsubsection*{Hierarchical}
 
+\subsection*{Model Comparison}
 
+We can see from table \ref{AICs} that the No Pooling model has the lowest AIC which is to be expected as in a certain sense this model has the most flexibility. The intercept term for each neighborhood is the average of only the observations in that neighborhood and is not ``shrunk'' to any sort of common mean.
+
+As we can see from table \ref{MSEs}, %TODO: write section on which MSEs are the smallest. 
+
+\begin{table}[!htbp] \centering
+  \caption{Model AICs}
+  \label{AICs}
+  \begin{tabular}[c]{c|c}
+\\    Model & AIC \\
+    \hline \\
+    Complete Pooling & 0 \\
+    No Pooling & 0 \\
+    Partial Pooling & 0 \\
+    Hierarchical & 0 \\
+  \end{tabular}
+\end{table}
+
+\begin{table}[!htbp] \centering
+  \caption{Model Cross Validated MSEs}
+  \label{MSEs}
+  \begin{tabular}[c]{c|c}
+\\    Model & AIC \\
+    \hline \\
+    Complete Pooling & 0 \\
+    No Pooling & 0 \\
+    Partial Pooling & 0 \\
+    Hierarchical & 0 \\
+  \end{tabular}
+\end{table}
 
 \section*{Conclusions}
+
+
 
 \end{document}
