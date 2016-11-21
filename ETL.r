@@ -3,6 +3,19 @@
 ## Description: Code to transform data ##
 #########################################
 
+install.packages('sp')
+install.packages('magrittr')
+install.packages('stringr')
+install.packages('geosphere')
+install.packages('data.table')
+install.packages('plyr')
+install.packages('foreach')
+install.packages('data.table')
+install.packages('ggplot2')
+install.packages('sp')
+install.packages('rgeos')
+install.packages('rgdal')
+
 library(sp)
 library(magrittr)
 library(stringr)
