@@ -71,13 +71,21 @@ all_data$Latitude_t <- t[,2]
 
 all_data$desert <- as.numeric(all_data$desert)
 
-
+plot_data <- subset(all_data, TOTAL.POPULATION > 0)
 
 
 
 summary(glm(desert ~ NHB_p, family = 'binomial', data = all_data))
 
+all_data$rider_density <- all_data$CTA_counts / all_data$TOTAL
+
 ggplot(all_data, aes(x = NHB_p, y = desert)) +
+    geom_point() + stat_smooth(method = 'glm', method.args = list(family = 'binomial'))
+
+ggplot(all_data, aes(x = rider_density, y = desert)) +
+    geom_point() + stat_smooth(method = 'glm', method.args = list(family = 'binomial'))
+
+ggplot(plot_data, aes(x = Gonorrhea.in.Females, y = desert)) +
     geom_point() + stat_smooth(method = 'glm', method.args = list(family = 'binomial'))
 
 

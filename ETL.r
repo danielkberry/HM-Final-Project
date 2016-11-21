@@ -3,18 +3,6 @@
 ## Description: Code to transform data ##
 #########################################
 
-install.packages('sp')
-install.packages('magrittr')
-install.packages('stringr')
-install.packages('geosphere')
-install.packages('data.table')
-install.packages('plyr')
-install.packages('foreach')
-install.packages('data.table')
-install.packages('ggplot2')
-install.packages('sp')
-install.packages('rgeos')
-install.packages('rgdal')
 
 library(sp)
 library(magrittr)
@@ -109,7 +97,7 @@ blocks_raw$CTA_counts <- CTA_counts$x
 
 library(data.table)
 library(plyr)
-crimes <- fread('../rows.csv')
+crimes <- fread('~/Downloads/Crimes_-_2001_to_present.csv')
 
 doMC::registerDoMC(parallel::detectCores() - 3)
 
@@ -135,19 +123,22 @@ t2 <- t2[apply(is.na(t2),1,function(s) !any(s)),]
 ##     return(c(df$GEOID10[1],count))
 ## }, .progress = 'text', .parallel = TRUE )
 
-count_func <- function(i) {
-    print(i)
-    t1 <- as.matrix(blocks_raw[i,c('Latitude', 'Longitude')])
+## count_func <- function(i) {
+##     print(i)
+##     t1 <- as.matrix(blocks_raw[i,c('Latitude', 'Longitude')])
 
-    dists <- spDists(t1,t2, longlat = TRUE)
+##     dists <- spDists(t1,t2, longlat = TRUE)
 
-    count <- sum(dists <= 1, na.rm = TRUE)
-    return(count)
-}
+##     count <- sum(dists <= 1, na.rm = TRUE)
+##     return(c(i,count))
+## }
 
-library(foreach)
+## count_func(2340)
 
-result <- foreach(i=1:nrow(blocks_raw), .combine = c) %dopar% count_func(i)
+
+## library(foreach)
+
+## result <- foreach(i=1:nrow(blocks_raw), .combine = rbind) %dopar% count_func(i)
 
 
 groceries <- read.csv('food-deserts-master/data/Grocery_Stores_-_2011.csv', stringsAsFactors = FALSE)
@@ -187,7 +178,7 @@ nrow(block_data <- merge(blocks_raw, population, by.x = 'TRACT_BLOC', by.y = 'CE
 
 library(data.table)
 
-crime <- fread('../rows.csv')
+## crime <- fread('../rows.csv')
 
 library(ggplot2)
 
@@ -327,7 +318,8 @@ all_data <- merge(block_data, public_health, by = 'Neighborhood', all.x = TRUE)
 all_data <- merge(all_data, socioeconomic, by = 'Neighborhood', all.x = TRUE)
 all_data <- merge(all_data, race, by = 'Neighborhood', all.x = TRUE)
 
-
+load('result')
+all_data$crime <- result[,2]
 
 write.csv(all_data, file = 'all_data.csv')
 save(all_data, file = 'all_data')
