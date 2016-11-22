@@ -8,11 +8,18 @@
     "report"
     "rep10"
     "geometry"
-    "amsmath")
+    "amsmath"
+    "graphicx")
    (LaTeX-add-labels
+    "fig:desert"
+    "fig:black"
+    "fig:white"
+    "fig:income"
+    "fig:vacant"
     "cpresult"
     "npresult"
     "ppresult"
+    "mlm"
     "AICs"
     "MSEs"))
  :latex)

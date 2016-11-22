@@ -1,8 +1,10 @@
 \documentclass{report}
 
 \usepackage[margin=1in]{geometry}
-
 \usepackage{amsmath}
+\usepackage{graphicx}
+
+
 
 \title{Access to Food in Chicago: \\ a Hierarchical Perspective}
 \author{Daniel Berry}
@@ -28,7 +30,44 @@ There is no single agreed upon definition of a food desert. Some common metrics 
 % TODO: insert citation
 For this work we used the definition from %TODO: citation
 of defining a city block as being in a food desert if the city block is more than 1 mile from a supermarket. Supermarket in this context is a grocery store that is larger than 10000 square feet %TODO: citation
-that is not primarily a liquor store. Distance is defined as the great circle distance from the center of mass of the city block to the center of mass of the grocery store. 
+that is not primarily a liquor store. Distance is defined as the great circle distance from the center of mass of the city block to the center of mass of the grocery store.
+
+We can see the location of food deserts as computed using our metric visualized in figure \ref{fig:desert}. 
+\begin{figure}[h!]
+  \includegraphics[scale=.2]{deserts_plot}
+  \caption{Food Desert Locations in Chicago}
+  \label{fig:desert}
+\end{figure}
+
+Chicago is a very racially segregated city. As shown in figures \ref{fig:black} and \ref{fig:white}, many neighborhoods in Chicago are $>$75\% a single race.
+
+\begin{figure}[h!]
+  \includegraphics[scale=.2]{pct_black_plot}
+  \caption{Neighborhoods by Black Percentage}
+  \label{fig:black}
+\end{figure}
+
+\begin{figure}[h!]
+  \includegraphics[scale=.2]{pct_white_plot}
+  \caption{Neighborhoods by White Percentage}
+  \label{fig:white}
+\end{figure}
+
+In fact, it appears that many food deserts are located in majority black neighborhoods. We will explore this relationship later on during the model building phase. Chicago also has very strong class divisions. For example the (near) north side is very wealthy while the south side and suburbs are less so,  see \ref{fig:income}. 
+
+\begin{figure}[h!]
+  \includegraphics[scale=.2]{income_plot}
+  \caption{Neighborhoods by Per Capita Income}
+  \label{fig:income}
+\end{figure}
+
+Perhaps instead, food deserts are associated with urban decay. We might hypothesize that 
+
+\begin{figure}[h!]
+  \includegraphics[scale=.2]{vacant_plot}
+  \caption{Neighborhoods by Number Vacant Buildings with 1 Mile Radius}
+  \label{fig:vacant}
+\end{figure}
 
 
 \section*{Methods}
@@ -40,8 +79,8 @@ All data was sourced from the generous Open Data Portal operated by the city of 
 
 \subsubsection*{Block level data}
 
-% \paragraph{ Crimes 2001 - present}
-% This file contains a record for crimes in Chicago since 2001 with information about the type of crime as well as its location. The location is pseudo-anonymized to be random but within the same city block. For each city block we counted the total number of crimes committed within 1 mile in 2009. Our hypothesis \textit{a priori} was that food deserts were often located in high-crime areas.
+\paragraph{ Crimes 2001 - present}
+This file contains a record for crimes in Chicago since 2001 with information about the type of crime as well as its location. The location is pseudo-anonymized to be random but within the same city block. For each city block we counted the total number of crimes committed within 1 mile in 2009. Our hypothesis \textit{a priori} was that food deserts were often located in high-crime areas.
 
 
 \paragraph{ 311 Service Requests: Vacant Buildings}
@@ -116,7 +155,7 @@ Where $\epsilon_i \sim N(0, \sigma^2)$ and $\alpha_j \sim N(X_N \beta_N, \sigma^
 
 \subsection*{Model Comparison}
 
-Models were compared using AIC and cross validated Breir Score (Mean Square Error in the case of 2-class logistic regression). Lower values of AIC indicate better fitting models and thus can be used to compare the performance of models to each other. The cross validation was performed 10 fold where the model was fit on 80\% of the data and evaluated on the remaining 20\%. This gives a way of quantifying the predictive ability of the model on new, unseen data. 
+Models were compared using AIC and cross validated Breir Score (Mean Square Error in the case of 2-class logistic regression). Lower values of AIC indicate better fitting models and thus can be used to compare the performance of models to each other. The cross validation was performed 10 fold where the model was fit on 80\% of the data (sampled in a stratified manner based on Neighborhood) and evaluated on the remaining 20\%. This gives a way of quantifying the predictive ability of the model on new, unseen city blocks. . 
 
 \section*{Results}
 
@@ -295,81 +334,82 @@ Akaike Inf. Crit. & 19,826.710 \\
 \hline \\[-1.8ex] 
  CTA\_counts & $-$0.783$^{***}$ (0.061) \\ 
  vacant\_counts & $-$0.408$^{***}$ (0.038) \\ 
- crime & 0.101$^{***}$ (0.023) \\ 
- NeighborhoodArcher Heights & $-$0.375 (1,446.209) \\ 
- NeighborhoodArmour Square & 17.931 (757.423) \\ 
- NeighborhoodAshburn & 18.317 (757.423) \\ 
- NeighborhoodAuburn Gresham & 14.142 (757.423) \\ 
- NeighborhoodAustin & 16.954 (757.423) \\ 
- NeighborhoodAvalon Park & 16.000 (757.423) \\ 
- NeighborhoodAvondale & 0.474 (1,120.121) \\ 
- NeighborhoodBelmont Cragin & $-$0.218 (950.607) \\ 
- NeighborhoodBeverly & 17.015 (757.423) \\ 
- NeighborhoodBridgeport & 16.189 (757.423) \\ 
- NeighborhoodBrighton Park & $-$0.312 (1,089.199) \\ 
- NeighborhoodBurnside & $-$0.026 (2,105.039) \\ 
- NeighborhoodCalumet Heights & 15.508 (757.423) \\ 
- NeighborhoodChatham & 17.625 (757.423) \\ 
- NeighborhoodChicago Lawn & 17.574 (757.423) \\ 
- NeighborhoodClearing & 20.174 (757.423) \\ 
- NeighborhoodDouglas & 0.258 (1,787.332) \\ 
- NeighborhoodDunning & 18.424 (757.423) \\ 
- NeighborhoodEast Side & $-$0.936 (1,160.353) \\ 
- NeighborhoodEdgewater & 0.313 (1,091.423) \\ 
- NeighborhoodEdison Park & 16.364 (757.423) \\ 
- NeighborhoodEnglewood & 19.671 (757.423) \\ 
- NeighborhoodForest Glen & 17.814 (757.423) \\ 
- NeighborhoodFuller Park & 18.528 (757.423) \\ 
- NeighborhoodGage Park & $-$0.006 (1,115.834) \\ 
- NeighborhoodGarfield Park & 20.438 (757.423) \\ 
- NeighborhoodGarfield Ridge & 18.394 (757.423) \\ 
- NeighborhoodGrand Boulevard & 18.242 (757.423) \\ 
- NeighborhoodGreater Grand Crossing & 1.179 (1,059.845) \\ 
- NeighborhoodHegewisch & 22.005 (757.423) \\ 
- NeighborhoodHermosa & $-$0.076 (1,317.960) \\ 
- NeighborhoodHumboldt Park & 14.370 (757.423) \\ 
- NeighborhoodHyde Park & 0.316 (1,584.758) \\ 
- NeighborhoodIrving Park & $-$0.052 (1,000.494) \\ 
- NeighborhoodJefferson Park & $-$0.612 (1,083.140) \\ 
- NeighborhoodKenwood & 0.162 (1,831.358) \\ 
- NeighborhoodLake View & 0.573 (996.840) \\ 
- NeighborhoodLincoln Park & 0.284 (1,090.999) \\ 
- NeighborhoodLincoln Square & 0.152 (1,086.535) \\ 
- NeighborhoodLogan Square & 0.374 (928.612) \\ 
- NeighborhoodLoop & 4.593 (1,627.447) \\ 
- NeighborhoodLower West Side & $-$0.179 (1,141.349) \\ 
- NeighborhoodMcKinley Park & $-$0.425 (1,386.519) \\ 
- NeighborhoodMontclaire & $-$0.665 (1,428.421) \\ 
- NeighborhoodMorgan Park & 14.296 (757.423) \\ 
- NeighborhoodMount Greenwood & $-$1.035 (1,240.962) \\ 
- NeighborhoodNear North Side & 1.286 (1,065.410) \\ 
- NeighborhoodNear South Side & 0.203 (1,644.854) \\ 
- NeighborhoodNear West Side & 19.807 (757.423) \\ 
- NeighborhoodNew City & 17.533 (757.423) \\ 
- NeighborhoodNorth Center & 0.025 (1,072.777) \\ 
- NeighborhoodNorth Lawndale & 20.140 (757.423) \\ 
- NeighborhoodNorth Park & $-$0.485 (1,314.011) \\ 
- NeighborhoodNorwood Park & 15.859 (757.423) \\ 
- NeighborhoodO'Hare & 17.366 (757.423) \\ 
- NeighborhoodOakland & $-$0.333 (2,335.785) \\ 
- NeighborhoodPortage Park & 17.004 (757.423) \\ 
- NeighborhoodPullman & 20.484 (757.423) \\ 
- NeighborhoodRiverdale & $-$0.950 (2,642.673) \\ 
- NeighborhoodRogers Park & $-$0.180 (1,140.236) \\ 
- NeighborhoodRoseland & 21.135 (757.423) \\ 
- NeighborhoodSouth Chicago & 0.471 (1,066.274) \\ 
- NeighborhoodSouth Deering & 18.462 (757.423) \\ 
- NeighborhoodSouth Lawndale & $-$0.066 (1,038.034) \\ 
- NeighborhoodSouth Shore & 14.902 (757.423) \\ 
- NeighborhoodUptown & 0.845 (1,290.142) \\ 
- NeighborhoodWashington Heights & 17.343 (757.423) \\ 
- NeighborhoodWashington Park & 19.848 (757.423) \\ 
- NeighborhoodWest Elsdon & $-$0.357 (1,287.354) \\ 
- NeighborhoodWest Lawn & 18.031 (757.423) \\ 
- NeighborhoodWest Pullman & 20.427 (757.423) \\ 
- NeighborhoodWest Ridge & 18.428 (757.423) \\ 
- NeighborhoodWest Town & 0.566 (941.296) \\ 
- NeighborhoodWoodlawn & 17.508 (757.423) \\ 
+  crime & 0.101$^{***}$ (0.023) \\
+  \textit{Neighborhood intercepts ommitted due to space} & \\
+ % NeighborhoodArcher Heights & $-$0.375 (1,446.209) \\ 
+ % NeighborhoodArmour Square & 17.931 (757.423) \\ 
+ % NeighborhoodAshburn & 18.317 (757.423) \\ 
+ % NeighborhoodAuburn Gresham & 14.142 (757.423) \\ 
+ % NeighborhoodAustin & 16.954 (757.423) \\ 
+ % NeighborhoodAvalon Park & 16.000 (757.423) \\ 
+ % NeighborhoodAvondale & 0.474 (1,120.121) \\ 
+ % NeighborhoodBelmont Cragin & $-$0.218 (950.607) \\ 
+ % NeighborhoodBeverly & 17.015 (757.423) \\ 
+ % NeighborhoodBridgeport & 16.189 (757.423) \\ 
+ % NeighborhoodBrighton Park & $-$0.312 (1,089.199) \\ 
+ % NeighborhoodBurnside & $-$0.026 (2,105.039) \\ 
+ % NeighborhoodCalumet Heights & 15.508 (757.423) \\ 
+ % NeighborhoodChatham & 17.625 (757.423) \\ 
+ % NeighborhoodChicago Lawn & 17.574 (757.423) \\ 
+ % NeighborhoodClearing & 20.174 (757.423) \\ 
+ % NeighborhoodDouglas & 0.258 (1,787.332) \\ 
+ % NeighborhoodDunning & 18.424 (757.423) \\ 
+ % NeighborhoodEast Side & $-$0.936 (1,160.353) \\ 
+ % NeighborhoodEdgewater & 0.313 (1,091.423) \\ 
+ % NeighborhoodEdison Park & 16.364 (757.423) \\ 
+ % NeighborhoodEnglewood & 19.671 (757.423) \\ 
+ % NeighborhoodForest Glen & 17.814 (757.423) \\ 
+ % NeighborhoodFuller Park & 18.528 (757.423) \\ 
+ % NeighborhoodGage Park & $-$0.006 (1,115.834) \\ 
+ % NeighborhoodGarfield Park & 20.438 (757.423) \\ 
+ % NeighborhoodGarfield Ridge & 18.394 (757.423) \\ 
+ % NeighborhoodGrand Boulevard & 18.242 (757.423) \\ 
+ % NeighborhoodGreater Grand Crossing & 1.179 (1,059.845) \\ 
+ % NeighborhoodHegewisch & 22.005 (757.423) \\ 
+ % NeighborhoodHermosa & $-$0.076 (1,317.960) \\ 
+ % NeighborhoodHumboldt Park & 14.370 (757.423) \\ 
+ % NeighborhoodHyde Park & 0.316 (1,584.758) \\ 
+ % NeighborhoodIrving Park & $-$0.052 (1,000.494) \\ 
+ % NeighborhoodJefferson Park & $-$0.612 (1,083.140) \\ 
+ % NeighborhoodKenwood & 0.162 (1,831.358) \\ 
+ % NeighborhoodLake View & 0.573 (996.840) \\ 
+ % NeighborhoodLincoln Park & 0.284 (1,090.999) \\ 
+ % NeighborhoodLincoln Square & 0.152 (1,086.535) \\ 
+ % NeighborhoodLogan Square & 0.374 (928.612) \\ 
+ % NeighborhoodLoop & 4.593 (1,627.447) \\ 
+ % NeighborhoodLower West Side & $-$0.179 (1,141.349) \\ 
+ % NeighborhoodMcKinley Park & $-$0.425 (1,386.519) \\ 
+ % NeighborhoodMontclaire & $-$0.665 (1,428.421) \\ 
+ % NeighborhoodMorgan Park & 14.296 (757.423) \\ 
+ % NeighborhoodMount Greenwood & $-$1.035 (1,240.962) \\ 
+ % NeighborhoodNear North Side & 1.286 (1,065.410) \\ 
+ % NeighborhoodNear South Side & 0.203 (1,644.854) \\ 
+ % NeighborhoodNear West Side & 19.807 (757.423) \\ 
+ % NeighborhoodNew City & 17.533 (757.423) \\ 
+ % NeighborhoodNorth Center & 0.025 (1,072.777) \\ 
+ % NeighborhoodNorth Lawndale & 20.140 (757.423) \\ 
+ % NeighborhoodNorth Park & $-$0.485 (1,314.011) \\ 
+ % NeighborhoodNorwood Park & 15.859 (757.423) \\ 
+ % NeighborhoodO'Hare & 17.366 (757.423) \\ 
+ % NeighborhoodOakland & $-$0.333 (2,335.785) \\ 
+ % NeighborhoodPortage Park & 17.004 (757.423) \\ 
+ % NeighborhoodPullman & 20.484 (757.423) \\ 
+ % NeighborhoodRiverdale & $-$0.950 (2,642.673) \\ 
+ % NeighborhoodRogers Park & $-$0.180 (1,140.236) \\ 
+ % NeighborhoodRoseland & 21.135 (757.423) \\ 
+ % NeighborhoodSouth Chicago & 0.471 (1,066.274) \\ 
+ % NeighborhoodSouth Deering & 18.462 (757.423) \\ 
+ % NeighborhoodSouth Lawndale & $-$0.066 (1,038.034) \\ 
+ % NeighborhoodSouth Shore & 14.902 (757.423) \\ 
+ % NeighborhoodUptown & 0.845 (1,290.142) \\ 
+ % NeighborhoodWashington Heights & 17.343 (757.423) \\ 
+ % NeighborhoodWashington Park & 19.848 (757.423) \\ 
+ % NeighborhoodWest Elsdon & $-$0.357 (1,287.354) \\ 
+ % NeighborhoodWest Lawn & 18.031 (757.423) \\ 
+ % NeighborhoodWest Pullman & 20.427 (757.423) \\ 
+ % NeighborhoodWest Ridge & 18.428 (757.423) \\ 
+ % NeighborhoodWest Town & 0.566 (941.296) \\ 
+ % NeighborhoodWoodlawn & 17.508 (757.423) \\ 
  Constant & $-$20.678 (757.423) \\ 
 \hline \\[-1.8ex] 
 Observations & 36,870 \\ 
@@ -441,11 +481,42 @@ Bayesian Inf. Crit. & 13,181.990 \\
 
 \subsubsection*{Hierarchical}
 
+% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+% Date and time: Tue, Nov 22, 2016 - 15:04:24
+\begin{table}[!htbp] \centering 
+  \caption{Hierarchical Model Summary} 
+  \label{mlm} 
+\begin{tabular}{@{\extracolsep{5pt}}lc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{1}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-2} 
+\\[-1.8ex] & desert \\ 
+\hline \\[-1.8ex] 
+ CTA\_counts & $-$0.779$^{***}$ (0.061) \\ 
+ crime & 0.102$^{***}$ (0.023) \\ 
+ vacant\_counts & $-$0.413$^{***}$ (0.038) \\ 
+ Cancer..All.Sites. & 3.289$^{***}$ (0.852) \\ 
+ Diabetes.related & $-$1.954$^{**}$ (0.801) \\ 
+ Dependency & 1.158$^{*}$ (0.695) \\ 
+ TOTAL.POPULATION & $-$0.147$^{***}$ (0.048) \\ 
+ Constant & $-$6.221$^{***}$ (0.522) \\ 
+\hline \\[-1.8ex] 
+Observations & 36,870 \\ 
+Log Likelihood & $-$6,540.603 \\ 
+Akaike Inf. Crit. & 13,099.210 \\ 
+Bayesian Inf. Crit. & 13,175.840 \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{1}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 
+
 \subsection*{Model Comparison}
 
-We can see from table \ref{AICs} that the No Pooling model has the lowest AIC which is to be expected as in a certain sense this model has the most flexibility. The intercept term for each neighborhood is the average of only the observations in that neighborhood and is not ``shrunk'' to any sort of common mean.
+We can see from table \ref{AICs} that the No Pooling model has the lowest AIC which is to be expected as in a certain sense this model has the most flexibility. The intercept term for each neighborhood is the average of only the observations in that neighborhood and is not ``shrunk'' to any sort of common mean. The intercepts for the hierarchical model are shrunk due to the effect of the neighborhood level regressors. 
 
-As we can see from table \ref{MSEs}, %TODO: write section on which MSEs are the smallest. 
+As we can see from table \ref{MSEs}, the Hierarchical model outperforms all 4 types of models in terms of held out predictive ability. 
 
 \begin{table}[!htbp] \centering
   \caption{Model AICs}
@@ -453,10 +524,10 @@ As we can see from table \ref{MSEs}, %TODO: write section on which MSEs are the 
   \begin{tabular}[c]{c|c}
 \\    Model & AIC \\
     \hline \\
-    Complete Pooling & 0 \\
-    No Pooling & 0 \\
-    Partial Pooling & 0 \\
-    Hierarchical & 0 \\
+    Complete Pooling & 19826.7 \\
+    No Pooling & 12970.3 \\
+    Partial Pooling & 13139.4 \\
+    Hierarchical & 13099.2 \\
   \end{tabular}
 \end{table}
 
@@ -464,17 +535,25 @@ As we can see from table \ref{MSEs}, %TODO: write section on which MSEs are the 
   \caption{Model Cross Validated MSEs}
   \label{MSEs}
   \begin{tabular}[c]{c|c}
-\\    Model & AIC \\
+\\    Model & MSE \\
     \hline \\
-    Complete Pooling & 0 \\
-    No Pooling & 0 \\
-    Partial Pooling & 0 \\
-    Hierarchical & 0 \\
+    Complete Pooling & 0.07382216 \\
+    No Pooling &  0.05328587 \\
+    Partial Pooling & 0.05329956 \\
+    Hierarchical & 0.05323632 \\
   \end{tabular}
 \end{table}
 
 \section*{Conclusions}
 
+In terms of cross validated accuracy: the hierarchical model was more accurate on average on new city blocks than the other 3 models indicating support for the hierarchical structure of the data. However, the evidence was not as strong as the author would have liked. Consider the model summary in table \ref{mlm}. We see that food deserts tend to be located in neighborhoods with higher incidences of all site cancer. Perhaps surprisingly, in the prescence of the other information, a block in a neighborhood with higher incidences of diabetes was less likely to be in a food desert. City blocks in neighborhoods that are more populous (TOTAL.POPULATION) are less likely to be food deserts. Finally, blocks in neighborhoods with higher rates of dependency (\% of the population younger than 18 or older than 64) are more likely to be in food deserts.
+
+While we have evidence for the utility of multi-level data for modeling food desert prescence in Chicago, the knowledge in this report is likely common knowledge for anyone working in this field.
+
+Public health variables tended to be more predictive than purely racial variables, although there is a strong correlation between race and health in Chicago. 
+
+\section*{Future Work}
+Some issues due to not having data from grocery stores outside the city limits, could affect food desert status of city blocks near the borders. 
 
 
 \end{document}

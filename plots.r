@@ -111,15 +111,92 @@ for (covar in potential_covariates) {
 
 all_data$desert_logical <- all_data$desert == 1
 
-ggplot(all_data, aes(x = Longitude_t, y = Latitude_t, color = desert_logical)) +
+deserts_plot <- ggplot(all_data, aes(x = Longitude_t, y = Latitude_t, color = desert_logical)) +
     geom_point(alpha = .1) +
     theme_bw() +
     scale_color_manual(values = c('grey', 'black')) +
-    geom_path(data = nbhd_df, aes(long, lat, group = id, color = NULL))
+    geom_path(data = nbhd_df, aes(long, lat, group = id, color = NULL)) +
+    labs(x = NULL, y = NULL, title = 'Food Desert Locations in Chicago') +
+    guides(color = guide_legend(title = 'Food Desert Status')) +
+    theme(axis.ticks.x = element_blank(),
+          axis.text.x=element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.text.y=element_blank())
 
-ggplot(all_data, aes(x = Longitude_t, y = Latitude_t, color = NHB_p)) +
+ggsave('deserts_plot.png', deserts_plot)
+
+
+pct_black_plot <- ggplot(all_data, aes(x = Longitude_t, y = Latitude_t, color = NHB_p)) +
     geom_point(alpha = .1) +
     theme_bw() +
     geom_path(data = nbhd_df, aes(long, lat, group = id, color = NULL)) +
-    labs()
-    
+    geom_path(data = nbhd_df, aes(long, lat, group = id, color = NULL)) +
+    labs(x = NULL, y = NULL, title = 'Racial Segregation: % Black') +
+    guides(color = guide_legend(title = 'Percent Black')) +
+    theme(axis.ticks.x = element_blank(),
+          axis.text.x=element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.text.y=element_blank())
+ggsave('pct_black_plot.png', pct_black_plot)
+
+pct_white_plot <- ggplot(all_data, aes(x = Longitude_t, y = Latitude_t, color = NHW_p)) +
+    geom_point(alpha = .1) +
+    theme_bw() +
+    geom_path(data = nbhd_df, aes(long, lat, group = id, color = NULL)) +
+    geom_path(data = nbhd_df, aes(long, lat, group = id, color = NULL)) +
+    labs(x = NULL, y = NULL, title = 'Racial Segregation: % White') +
+    guides(color = guide_legend(title = 'Percent White')) +
+    theme(axis.ticks.x = element_blank(),
+          axis.text.x=element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.text.y=element_blank())
+
+ggsave('pct_white_plot.png', pct_white_plot)
+
+
+crime_plot <- ggplot(all_data, aes(x = Longitude_t, y = Latitude_t, color = crime)) +
+    geom_point(alpha = .1) +
+    theme_bw() +
+    geom_path(data = nbhd_df, aes(long, lat, group = id, color = NULL)) +
+    geom_path(data = nbhd_df, aes(long, lat, group = id, color = NULL)) +
+    labs(x = NULL, y = NULL, title = 'Total Crime Within 1 Mile') +
+    guides(color = guide_legend(title = 'Total Crime')) +
+    theme(axis.ticks.x = element_blank(),
+          axis.text.x=element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.text.y=element_blank())
+
+ggsave('crime_plot.png', crime_plot)
+crime_plot
+
+income_plot <- ggplot(all_data, aes(x = Longitude_t, y = Latitude_t, color = PER.CAPITA.INCOME)) +
+    geom_point(alpha = .1) +
+    theme_bw() +
+    geom_path(data = nbhd_df, aes(long, lat, group = id, color = NULL)) +
+    geom_path(data = nbhd_df, aes(long, lat, group = id, color = NULL)) +
+    labs(x = NULL, y = NULL, title = 'Per Capita Income') +
+    guides(color = guide_legend(title = 'Income')) +
+    theme(axis.ticks.x = element_blank(),
+          axis.text.x=element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.text.y=element_blank())
+
+ggsave('income_plot.png', income_plot)
+income_plot
+
+vacant_plot <- ggplot(all_data, aes(x = Longitude_t, y = Latitude_t, color = vacant_counts)) +
+    geom_point(alpha = .1) +
+    theme_bw() +
+    geom_path(data = nbhd_df, aes(long, lat, group = id, color = NULL)) +
+    geom_path(data = nbhd_df, aes(long, lat, group = id, color = NULL)) +
+    labs(x = NULL, y = NULL, title = 'Vacant Buildings within 1 Mile') +
+    guides(color = guide_legend(title = 'Vacancy')) +
+    theme(axis.ticks.x = element_blank(),
+          axis.text.x=element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.text.y=element_blank())
+
+ggsave('vacant_plot.png', vacant_plot)
+vacant_plot
+
+pct_white_plot

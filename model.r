@@ -297,6 +297,7 @@ model3 <- glmer(desert ~ CTA_counts +
 model4 <- glmer(desert ~ CTA_counts +
                     vacant_counts +
                     crime +
+                    Cancer..All.Sites. +
                     TOTAL.POPULATION +
                     NHAS +
                     Dependency +
@@ -316,6 +317,108 @@ model4 <- glmer(desert ~ CTA_counts +
                 verbose = TRUE,
                 control = glmerControl(calc.derivs = FALSE, optCtrl=list(maxfun=5000)))
 
+model5 <- glmer(desert ~ . -
+                    Neighborhood -
+                    TRACT_BLOC -
+                    STATEFP10 -
+                    COUNTYFP10 -
+                    TRACTCE10 -
+                    BLOCKCE10 -
+                    GEOID10 -
+                    NAME10 -
+                    Latitude -
+                    Longitude -
+                    Birth.Rate - 
+                    Community.Area.Number -
+                    Childhood.Blood.Lead.Level.Screening -
+                    Childhood.Lead.Poisoning - 
+                    Community.Area.x -
+                    Community.Area.y -
+                    Gonorrhea.in.Females -
+                    Gonorrhea.in.Males -
+                    Prostate.Cancer.in.Males -
+                    Breast.cancer.in.females -
+                    Colorectal.Cancer - 
+                    TOTAL -
+                    Multiple.Race.. -
+                    PERCENT.HOUSEHOLDS.BELOW.POVERTY -
+                    PERCENT.OF.HOUSING.CROWDED -
+                    PERCENT.AGED.16..UNEMPLOYED -
+                    PERCENT.AGED.25..WITHOUT.HIGH.SCHOOL.DIPLOMA - 
+                    PER.CAPITA.INCOME -
+                    PERCENT.AGED.UNDER.18.OR.OVER.64 -
+                    HARDSHIP.INDEX - 
+                    nearest_supermarket -
+                    Below.Poverty.Level -
+                    Prenatal.Care.Beginning.in.First.Trimester -
+                    Preterm.Births -
+                    Low.Birth.Weight -
+                    Crowded.Housing -
+                    General.Fertility.Rate -
+                    Infant.Mortality.Rate - 
+                    NHW -
+                    NHW_p -
+                    NHOTHER -
+                    NHOTHER_p - 
+                    Multiple.Race.._p +
+                    (1|Neighborhood),
+                data = model_data_scale,
+                family = 'binomial',
+                verbose = 2,
+                control = glmerControl(calc.derivs = FALSE, optCtrl = list(maxfun = 5000)))
+
+summary(model6 <- glmer(desert ~ CTA_counts + crime + vacant_counts +
+                            Cancer..All.Sites. +
+                            Diabetes.related +
+                            Dependency +
+                            TOTAL.POPULATION +
+                            (1 | Neighborhood),
+                        data = model_data_scale,
+                        family = 'binomial',
+                        verbose = 2,
+                        control = glmerControl(calc.derivs = FALSE, optCtrl = list(maxfun = 1000))))
+
+## Gonorrhea in females
+## Cancer all sites
+## Total population
+## NHAS
+## Dependency
+## Childhood lead poisoning
+## Prenatal care beginning in first trimester
+## Gonorrhea in males
+## NHAM_p
+## Multiple.Race..
+## Stroke..Cerebrovascular.Disease
+## Firearm.related
+## Tuberculosis
+## NHW_p
+## Teen birth rate
+## No.high.school.diploma
+## Lung.cancer
+
+summary(model7 <- glmer(desert ~ CTA_counts + crime + vacant_counts +
+                            Cancer..All.Sites. +
+                            TOTAL.POPULATION +
+                            Prenatal.Care.Beginning.in.First.Trimester +
+                            NHAM_p +
+                            Multiple.Race.. +
+                            Stroke..Cerebrovascular.Disease. +
+                            Tuberculosis +
+                            NHW_p +
+                            Teen.Birth.Rate +
+                            No.High.School.Diploma +
+                            Lung.Cancer + 
+                            (1 | Neighborhood),
+                        data = model_data_scale,
+                        family = 'binomial',
+                        verbose = 2,
+                        control = glmerControl(calc.derivs = FALSE, optCtrl = list(maxfun = 2000))
+                        ))
+
+summary(pp <- glmer(desert ~ CTA_counts + vacant_counts + crime + (1 | Neighborhood), data = model_data_scale, family = 'binomial', verbose = 2))
+
+summary(cp <- glm(desert ~ CTA_counts + vacant_counts + crime, data = model_data_scale, family = 'binomial'))
+
 t_data <- complete_datas2[[1]]
 
 model4 <- glmer(desert ~ CTA_counts +
@@ -325,7 +428,7 @@ model4 <- glmer(desert ~ CTA_counts +
                    Dependency +
                    Childhood.Lead.Poisoning +
                    Prenatal.Care.Beginning.in.First.Trimester +
-                   NHAM_p +.[.---------------[-]]
+                   NHAM_p +
                    Multiple.Race.. +
                    Stroke..Cerebrovascular.Disease. +
                    Tuberculosis +
@@ -357,26 +460,37 @@ for (i in 1:10) {
     pp <- glmer(desert ~ CTA_counts + vacant_counts + crime + (1 | Neighborhood), data = train, family = 'binomial')
     print(paste('AIC pp:', AIC(pp)))
     
-    mlm <- glmer(desert ~ CTA_counts +
-                    vacant_counts +
-                    crime +
-                    TOTAL.POPULATION +
-                    NHAS +
-                    Dependency +
-                    Childhood.Lead.Poisoning +
-                    Prenatal.Care.Beginning.in.First.Trimester +
-                    NHAM_p +
-                    Multiple.Race.. +
-                    Stroke..Cerebrovascular.Disease. +
-                    Tuberculosis +
-                    Teen.Birth.Rate +
-                    No.High.School.Diploma +
-                    Lung.Cancer +
-                    Colorectal.Cancer +
-                    (1|Neighborhood),
-                data = train,
-                family = 'binomial',
-                control = glmerControl(calc.derivs = FALSE, optCtrl=list(maxfun=1000)))
+    ## mlm <- glmer(desert ~ CTA_counts +
+    ##                 vacant_counts +
+    ##                 crime +
+    ##                 TOTAL.POPULATION +
+    ##                 NHAS +
+    ##                 Dependency +
+    ##                 Childhood.Lead.Poisoning +
+    ##                 Prenatal.Care.Beginning.in.First.Trimester +
+    ##                 NHAM_p +
+    ##                 Multiple.Race.. +
+    ##                 Stroke..Cerebrovascular.Disease. +
+    ##                 Tuberculosis +
+    ##                 Teen.Birth.Rate +
+    ##                 No.High.School.Diploma +
+    ##                 Lung.Cancer +
+    ##                 Colorectal.Cancer +
+    ##                 (1|Neighborhood),
+    ##             data = train,
+    ##             family = 'binomial',
+    ##             control = glmerControl(calc.derivs = FALSE, optCtrl=list(maxfun=1000)))
+
+   mlm <- glmer(desert ~ CTA_counts + crime + vacant_counts +
+                            Cancer..All.Sites. +
+                            Diabetes.related +
+                            Dependency +
+                            TOTAL.POPULATION +
+                            (1 | Neighborhood),
+                        data = train,
+                        family = 'binomial',
+                        control = glmerControl(calc.derivs = FALSE, optCtrl = list(maxfun = 1000)))
+
     
     print(paste('AIC mlm:', AIC(mlm)))
     
@@ -464,3 +578,47 @@ print(paste('Final model:', in_vars, collapse = ', '))
 ## else {
 ##     break
 ## }
+
+
+cp <- glm(desert ~ CTA_counts + vacant_counts + crime, family = 'binomial', data = model_data_scale)
+print(paste('AIC cp:', AIC(cp)))
+
+np <- glm(desert ~ CTA_counts + vacant_counts + crime + Neighborhood, family = 'binomial', data = model_data_scale)
+print(paste('AIC np:', AIC(np)))
+
+pp <- glmer(desert ~ CTA_counts + vacant_counts + crime + (1 | Neighborhood), data = model_data_scale, family = 'binomial')
+print(paste('AIC pp:', AIC(pp)))
+
+## mlm <- glmer(desert ~ CTA_counts +
+##                 vacant_counts +
+##                 crime +
+##                 TOTAL.POPULATION +
+##                 NHAS +
+##                 Dependency +
+##                 Childhood.Lead.Poisoning +
+##                 Prenatal.Care.Beginning.in.First.Trimester +
+##                 NHAM_p +
+##                 Multiple.Race.. +
+##                 Stroke..Cerebrovascular.Disease. +
+##                 Tuberculosis +
+##                 Teen.Birth.Rate +
+##                 No.High.School.Diploma +
+##                 Lung.Cancer +
+##                 Colorectal.Cancer +
+##                 (1|Neighborhood),
+##             data = model_data_scale,
+##             family = 'binomial',
+##             control = glmerControl(calc.derivs = FALSE, optCtrl=list(maxfun=1000)))
+
+mlm <- glmer(desert ~ CTA_counts + crime + vacant_counts +
+                 Cancer..All.Sites. +
+                 Diabetes.related +
+                 Dependency +
+                 TOTAL.POPULATION +
+                 (1 | Neighborhood),
+             data = model_data_scale,
+             family = 'binomial',
+             control = glmerControl(calc.derivs = FALSE, optCtrl = list(maxfun = 1000)))
+
+
+print(paste('AIC mlm:', AIC(mlm)))
