@@ -622,3 +622,29 @@ mlm <- glmer(desert ~ CTA_counts + crime + vacant_counts +
 
 
 print(paste('AIC mlm:', AIC(mlm)))
+
+summary(glm(desert ~ Birth.Rate + 
+            General.Fertility.Rate                      + 
+            Low.Birth.Weight                            + 
+            Prenatal.Care.Beginning.in.First.Trimester  + 
+            Preterm.Births                              + 
+            Teen.Birth.Rate                             + 
+            Assault..Homicide.                          + 
+            Breast.cancer.in.females                    + 
+            Cancer..All.Sites.                          + 
+            Colorectal.Cancer                           + 
+            Diabetes.related                            + 
+            Firearm.related                             + 
+            Infant.Mortality.Rate                       + 
+            Lung.Cancer                                 + 
+            Prostate.Cancer.in.Males                    + 
+            Stroke..Cerebrovascular.Disease.            + 
+            Tuberculosis                                + 
+            Below.Poverty.Level                         + 
+            Crowded.Housing                             + 
+            Dependency                                  + 
+            No.High.School.Diploma                      + 
+            Per.Capita.Income                           + 
+            Unemployment,
+            data = model_data_scale,
+            family = 'binomial'))

@@ -103,7 +103,6 @@ This file contains a record for every neighborhood in Chicago with information a
 \paragraph{ Race by Community Area }
 This file contains a record for every neighborhood in Chicago with the number of residents of each race who reside in that neighborhood. \\
 
-We tried to gather data on crimes and use that information in the model, however the available dataset for crimes in chicago is rather large ($>$1 GB) and we didn't have time to finish extracting features from that model. We hypothesized that food deserts were more likely to be in high crime areas. 
 
 \subsection*{Generalized Linear Models}
 
@@ -124,33 +123,35 @@ Hierarchical models are another extension to the family of linear models which a
 
 To begin we have the simplest model: ordinary regression using only the block-level variables. This model pools together every neighborhood as if the neighborhood distinctions don't matter. 
 
-$$ y_{ij} = \text{logit}^{-1}\left( \alpha + X_{B}\beta_{B} + \epsilon_{ij} \right) $$
+$$ y_{ij} = \text{logit}^{-1}\left( \alpha + X_{B}\beta_{B}  \right) $$
 
-Where $\epsilon_{ij} \sim N(0, \sigma^2)$
+% Where $\epsilon_{ij} \sim N(0, \sigma^2)$
 
 \subsubsection*{No Pooling}
 
 The next model has a different but nonrandom intercept for each neighborhood, a fixed effect for that neighborhood. This would correspond to our belief that the neighborhoods are each different from the others. 
 
-$$ y_{i} = \text{logit}^{-1}\left( \alpha + X_{B}\beta_{B} +  \gamma_j + \epsilon_{ij} \right) $$
+$$ y_{i} = \text{logit}^{-1}\left( \alpha + X_{B}\beta_{B} +  \gamma_j  \right) $$
 
-Where $\epsilon_i \sim N(0, \sigma^2)$ 
+% Where $\epsilon_i \sim N(0, \sigma^2)$ 
 
 \subsubsection*{Partial pooling}
 
 The next model has a random intercept for each neighborhood which corresponds to partially pooling the data together. For every neighborhood we use some of the information in other neighborhoods to estimate its intercept. That is, the intercepts in the previous model are shrunk toward the common mean. 
 
-$$ y_{i} = \text{logit}^{-1}\left( \alpha_{j[i]} + X_{B}\beta_{B} +  \epsilon_i \right) $$
+$$ y_{i} = \text{logit}^{-1}\left( \alpha_{j[i]} + X_{B}\beta_{B}  \right) $$
 
-Where $\epsilon_i \sim N(0, \sigma^2)$ and $\alpha_j \sim N(0, \sigma^2_\alpha)$
+Where % $\epsilon_i \sim N(0, \sigma^2)$ and
+$\alpha_j \sim N(\mu_\alpha, \sigma^2_\alpha)$
 
 \subsubsection*{Hierarchical}
 
 The final and most complicated model that was fit was a hierarchical model including the neighborhood level predictors in estimating the random intercept for each neighborhood. 
 
-$$ y_{i} = \text{logit}^{-1}\left( \alpha_{j[i]} + X_{B}\beta_{B} +  \epsilon_i \right) $$
+$$ y_{i} = \text{logit}^{-1}\left( \alpha_{j[i]} + X_{B}\beta_{B}  \right) $$
 
-Where $\epsilon_i \sim N(0, \sigma^2)$ and $\alpha_j \sim N(X_N \beta_N, \sigma^2_\alpha)$
+Where % $\epsilon_i \sim N(0, \sigma^2)$ and
+$\alpha_j \sim N(X_N \beta_N, \sigma^2_\alpha)$
 
 
 \subsection*{Model Comparison}
@@ -544,6 +545,8 @@ As we can see from table \ref{MSEs}, the Hierarchical model outperforms all 4 ty
   \end{tabular}
 \end{table}
 
+The variance ratio $\frac{\sigma^2_alpha}{\sigma^2_y}$ in the hierarchical model is approximately 2.97 which means that for a neighborhood of more than 1/2.97 $\approx$ .33 city blocks, the within neighborhood model is more informative. This indicates that pooling and hierarchical structure may not be completely effective. 
+
 \section*{Conclusions}
 
 In terms of cross validated accuracy: the hierarchical model was more accurate on average on new city blocks than the other 3 models indicating support for the hierarchical structure of the data. However, the evidence was not as strong as the author would have liked. Consider the model summary in table \ref{mlm}. We see that food deserts tend to be located in neighborhoods with higher incidences of all site cancer. Perhaps surprisingly, in the prescence of the other information, a block in a neighborhood with higher incidences of diabetes was less likely to be in a food desert. City blocks in neighborhoods that are more populous (TOTAL.POPULATION) are less likely to be food deserts. Finally, blocks in neighborhoods with higher rates of dependency (\% of the population younger than 18 or older than 64) are more likely to be in food deserts.
@@ -555,5 +558,6 @@ Public health variables tended to be more predictive than purely racial variable
 \section*{Future Work}
 Some issues due to not having data from grocery stores outside the city limits, could affect food desert status of city blocks near the borders. 
 
+Additionally: the model isn't great and much more work would have to be done in order to make it useful. 
 
 \end{document}
