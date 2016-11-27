@@ -15,10 +15,15 @@ output: revealjs::revealjs_presentation
 	- Other definitions exist that also cover rural areas and take into account car ownership (harder to travel w/o a car)
 
 ## Where are food deserts in Chicago
-
+```{r, include = FALSE}
+load('all_data')
+```
 ```{r, out.width = "600px", echo = FALSE}
 knitr::include_graphics("deserts_plot.png")
 ```
+
+## Number of people living in a food desert
+According to the data and methodology used, estimate `r sum(all_data[all_data$desert, 'TOTAL.POPULATION'], na.rm = TRUE)` people living in a food desert. This is similar, but not exactly the same as previous estimates. In fact, other studies give a higher estimate. 
 
 # Chicago Demographics
 
